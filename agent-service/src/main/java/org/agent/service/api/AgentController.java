@@ -3,6 +3,7 @@ package org.agent.service.api;
 import lombok.RequiredArgsConstructor;
 import org.agent.service.common.StatusResponse;
 import org.agent.service.dto.RegisterAgentRequest;
+import org.agent.service.dto.SaveClusterStateRequest;
 import org.agent.service.service.AgentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,5 +17,13 @@ public class AgentController {
   @PostMapping("/register")
   public StatusResponse registerAgent(@RequestBody RegisterAgentRequest request) {
     return agentService.register(request);
+  }
+
+  @PostMapping("/{agentName}/cluster-state")
+  public StatusResponse saveClusterState(
+      @PathVariable(name = "agentName") String agentName,
+      @RequestBody SaveClusterStateRequest request
+  ) {
+    return agentService.saveClusterState(agentName, request);
   }
 }
