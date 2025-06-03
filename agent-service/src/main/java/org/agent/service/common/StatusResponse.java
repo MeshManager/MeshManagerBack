@@ -1,8 +1,17 @@
 package org.agent.service.common;
 
-public record StatusResponse(Boolean status) {
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-  public static StatusResponse from(Boolean status) {
-    return new StatusResponse(status);
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record StatusResponse(
+    boolean status, String errorMessage
+) {
+
+  public static StatusResponse of(Boolean status) {
+    return new StatusResponse(status, null);
+  }
+
+  public static StatusResponse of(Boolean status, String errorMessage) {
+    return new StatusResponse(status, errorMessage);
   }
 }

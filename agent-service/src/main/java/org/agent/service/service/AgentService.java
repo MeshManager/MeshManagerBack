@@ -18,6 +18,6 @@ public class AgentService {
   @Transactional
   public StatusResponse register(RegisterAgentRequest request) {
     agentRepository.save(Agent.create(request.name()));
-    return StatusResponse.from(true);
+    return StatusResponse.of(true);
   }
 }
