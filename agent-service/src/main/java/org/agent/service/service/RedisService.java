@@ -16,4 +16,9 @@ public class RedisService {
   public void saveJsonWithTTL(String key, Object jsonObject) {
     redisTemplate.opsForValue().set(key, jsonObject, TTL);
   }
+
+  public boolean exists(String key) {
+    Boolean hasKey = redisTemplate.hasKey(key);
+    return Boolean.TRUE.equals(hasKey);
+  }
 }

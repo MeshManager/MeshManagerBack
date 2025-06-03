@@ -26,4 +26,9 @@ public class AgentController {
   ) {
     return agentService.saveClusterState(agentName, request);
   }
+
+  @GetMapping("/{agentName}/status")
+  public StatusResponse checkAgentStatus(@PathVariable(name = "agentName") String agentName) {
+    return agentService.checkAgentStatus(agentName);
+  }
 }

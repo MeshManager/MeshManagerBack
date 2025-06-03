@@ -27,4 +27,10 @@ public class AgentService {
     redisService.saveJsonWithTTL(agentName, request);
     return StatusResponse.of(true);
   }
+
+  public StatusResponse checkAgentStatus(String agentName) {
+    return redisService.exists(agentName)
+        ? StatusResponse.of(true)
+        : StatusResponse.of(false);
+  }
 }
