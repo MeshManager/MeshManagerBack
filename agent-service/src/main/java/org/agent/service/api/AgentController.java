@@ -14,7 +14,7 @@ public class AgentController {
 
   private final AgentService agentService;
 
-  @PostMapping("/register")
+  @PostMapping
   public StatusResponse registerAgent(@RequestBody RegisterAgentRequest request) {
     return agentService.register(request);
   }
