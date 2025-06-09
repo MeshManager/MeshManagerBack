@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.management.service.common.StatusResponse;
-import org.management.service.dto.ClusterResourceRequest;
-import org.management.service.dto.Resource;
+import org.management.service.dto.request.ClusterResourceRequest;
+import org.management.service.dto.request.Resource;
+import org.management.service.dto.response.ClusterNamespacesResponse;
+import org.management.service.dto.response.ClusterServicesResponse;
 import org.management.service.entity.ClusterResource;
 import org.management.service.repository.ClusterResourceRepository;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -54,6 +56,16 @@ public class ManagementService {
     // TODO: 매니페스트 파일 형식으로 반환
 
     return StatusResponse.of(links);
+  }
+
+  public ClusterNamespacesResponse getClusterNamespaces(UUID clusterId) {
+    List<String> namespaces = clusterResourceRepository.findDistinctNamespacesByClusterId(clusterId);
+    return ClusterNamespacesResponse.of(namespaces);
+  }
+
+  public ClusterServicesResponse getServicesByNamespace(String namespace, UUID clusterId) {
+    List<String> serviceNames = clusterResourceRepository.findServiceNamesByClusterIdAndNamespace(clusterId, namespace);
+    return ClusterServicesResponse.of(serviceNames);
   }
 
   private List<ClusterResource> buildResources(String clusterId, List<Resource> namespaces) {
