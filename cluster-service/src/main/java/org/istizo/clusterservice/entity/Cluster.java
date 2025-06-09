@@ -19,6 +19,9 @@ public class Cluster {
   @Column(name = "cluster_id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
   private UUID uuid;
 
+  @Column(name = "user_id", nullable = false, unique = true)
+  private Long userId;
+
   @Column(nullable = false, unique = true)
   private String name;
 
@@ -30,6 +33,7 @@ public class Cluster {
 
   public static Cluster create(String name, String token, String prometheusUrl) {
     return Cluster.builder()
+        .userId(1L)
         .name(name)
         .token(token)
         .prometheusUrl(prometheusUrl)
