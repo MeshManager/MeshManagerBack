@@ -1,6 +1,8 @@
 package org.istizo.clusterservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.istizo.clusterservice.common.DataResponse;
+import org.istizo.clusterservice.dto.response.ClusterListResponse;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
 import org.istizo.clusterservice.dto.response.NamespaceListResponse;
 import org.istizo.clusterservice.dto.response.RegisterClusterResponse;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -27,6 +30,11 @@ public class ClusterService {
         Cluster.create(request.name(), request.token(), request.prometheusUrl())
     );
     return RegisterClusterResponse.of(cluster.getUuid());
+  }
+
+  public DataResponse<ClusterListResponse> getClustersByUserId(Long userId) {
+    List<ClusterListResponse> clusters = clusterRepository.findClustersByUserId(userId);
+    return DataResponse.of(clusters);
   }
 
   public NamespaceListResponse fetchNamespaces(UUID clusterId) {

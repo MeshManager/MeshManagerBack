@@ -1,7 +1,9 @@
 package org.istizo.clusterservice.api;
 
 import lombok.RequiredArgsConstructor;
+import org.istizo.clusterservice.common.DataResponse;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
+import org.istizo.clusterservice.dto.response.ClusterListResponse;
 import org.istizo.clusterservice.dto.response.NamespaceListResponse;
 import org.istizo.clusterservice.dto.response.RegisterClusterResponse;
 import org.istizo.clusterservice.dto.response.ServiceNameListResponse;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/cluster")
+@RequestMapping("/api/v1/clusters")
 @RestController
 public class ClusterController {
 
@@ -20,6 +22,11 @@ public class ClusterController {
   @PostMapping
   public RegisterClusterResponse registerAgent(@RequestBody RegisterClusterRequest request) {
     return clusterService.register(request);
+  }
+
+  @GetMapping
+  public DataResponse<ClusterListResponse> getClustersByUser() {
+    return clusterService.getClustersByUserId(1L);
   }
 
   @GetMapping("/namespaces")

@@ -19,7 +19,7 @@ public class Cluster {
   @Column(name = "cluster_id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
   private UUID uuid;
 
-  @Column(name = "user_id", nullable = false, unique = true)
+  @Column(name = "user_id", nullable = false)
   private Long userId;
 
   @Column(nullable = false, unique = true)
