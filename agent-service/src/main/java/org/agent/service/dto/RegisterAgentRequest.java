@@ -2,5 +2,9 @@ package org.agent.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RegisterAgentRequest(@NotBlank String name) {
+import java.util.UUID;
+
+public record RegisterAgentRequest(
+    @NotBlank String name, @NotBlank UUID clusterId
+) {
 }

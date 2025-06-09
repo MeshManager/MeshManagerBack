@@ -3,6 +3,8 @@ package org.agent.service.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,9 +20,13 @@ public class Agent {
   @Column(nullable = false, unique = true)
   private String name;
 
-  public static Agent create(String name) {
+  @Column(name = "cluster_id", nullable = false, unique = true)
+  private UUID clusterId;
+
+  public static Agent create(String name, UUID clusterId) {
     return Agent.builder()
         .name(name)
+        .clusterId(clusterId)
         .build();
   }
 }
