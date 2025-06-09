@@ -3,6 +3,8 @@ package org.management.service.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,7 +17,7 @@ public class ClusterResource {
   @Column(name = "cluster_resource_id", nullable = false, updatable = false)
   private Long id;
 
-  private Long clusterId;
+  private UUID clusterId;
 
   private String namespace;
 
@@ -29,7 +31,7 @@ public class ClusterResource {
       String clusterId, String namespace, String kind, String yaml
   ) {
     return ClusterResource.builder()
-        .clusterId(Long.valueOf(clusterId))
+        .clusterId(UUID.fromString(clusterId))
         .namespace(namespace)
         .kind(kind)
         .yaml(yaml)

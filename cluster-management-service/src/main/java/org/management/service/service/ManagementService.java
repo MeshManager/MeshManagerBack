@@ -1,8 +1,11 @@
 package org.management.service.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.management.service.common.StatusResponse;
 import org.management.service.dto.ClusterResourceRequest;
+import org.management.service.dto.Resource;
 import org.management.service.entity.ClusterResource;
 import org.management.service.repository.ClusterResourceRepository;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -25,16 +29,17 @@ public class ManagementService {
   private final RedisTemplate<String, String> redisTemplate;
 
   @Transactional
-  public StatusResponse processClusterResource(String clusterId, ClusterResourceRequest request) {
+  public StatusResponse saveClusterResource(ClusterResourceRequest request) {
+    String clusterId = request.uuid();
     String existingHash = redisTemplate.opsForValue().get(clusterId);
 
     if (!request.hash().equals(existingHash)) {
       redisTemplate.delete(clusterId);
       redisTemplate.opsForValue().set(clusterId, request.hash());
 
-      clusterResourceRepository.deleteAllByClusterId(Long.valueOf(clusterId));
+      clusterResourceRepository.deleteAllByClusterId(UUID.fromString(clusterId));
 
-      List<ClusterResource> resources = parseJsonToResources(clusterId, request.json());
+      List<ClusterResource> resources = buildResources(clusterId, request.namespaces());
       clusterResourceRepository.saveAll(resources);
     }
 
@@ -42,8 +47,8 @@ public class ManagementService {
   }
 
   @Transactional
-  public StatusResponse notifyAgentOnResourceChange(Long clusterId) {
-    List<ClusterResource> clusterResources = clusterResourceRepository.findAllByClusterIdAndChangedIsTrue(clusterId);
+  public StatusResponse notifyAgentOnResourceChange(String clusterId) {
+    List<ClusterResource> clusterResources = clusterResourceRepository.findAllByClusterIdAndChangedIsTrue(UUID.fromString(clusterId));
     List<String> links = new ArrayList<>();
 
     // TODO: 매니페스트 파일 형식으로 반환
@@ -51,32 +56,38 @@ public class ManagementService {
     return StatusResponse.of(links);
   }
 
-  private List<ClusterResource> parseJsonToResources(String clusterId, Map<String, Object> jsonData) {
+  private List<ClusterResource> buildResources(String clusterId, List<Resource> namespaces) {
     List<ClusterResource> result = new ArrayList<>();
-    Object nsObj = jsonData.get("namespaces");
+    ObjectMapper mapper = new ObjectMapper();
 
-    if (!(nsObj instanceof List)) {
-      return result;
-    }
+    for (Resource ns : namespaces) {
+      String namespace = ns.namespace();
 
-    List<Map<String, Object>> namespaces = (List<Map<String, Object>>) nsObj;
-
-    for (Map<String, Object> ns : namespaces) {
-      String namespace = (String) ns.get("namespace");
-
-      List<Map<String, Object>> deployments = (List<Map<String, Object>>) ns.get("deployments");
-      for (Map<String, Object> dep : deployments) {
-        ClusterResource cr = ClusterResource.create(clusterId, namespace, DEPLOYMENT_KIND, dep.toString());
-        result.add(cr);
+      // Deployment 처리
+      if (ns.deployments() != null) {
+        for (Map<String, Object> deployment : ns.deployments()) {
+          String json = serializeToJson(mapper, deployment);
+          result.add(ClusterResource.create(clusterId, namespace, DEPLOYMENT_KIND, json));
+        }
       }
 
-      List<Map<String, Object>> services = (List<Map<String, Object>>) ns.get("services");
-      for (Map<String, Object> svc : services) {
-        ClusterResource cr = ClusterResource.create(clusterId, namespace, SERVICE_KIND, svc.toString());
-        result.add(cr);
+      // Service 처리
+      if (ns.services() != null) {
+        for (Map<String, Object> service : ns.services()) {
+          String json = serializeToJson(mapper, service);
+          result.add(ClusterResource.create(clusterId, namespace, SERVICE_KIND, json));
+        }
       }
     }
 
     return result;
+  }
+
+  private String serializeToJson(ObjectMapper mapper, Map<String, Object> resource) {
+    try {
+      return mapper.writeValueAsString(resource);
+    } catch (JsonProcessingException e) {
+      return "{}";
+    }
   }
 }

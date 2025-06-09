@@ -3,10 +3,11 @@ package org.management.service.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.Map;
+import java.util.List;
 
 public record ClusterResourceRequest(
     @NotBlank String hash,
-    @NotEmpty Map<String, Object> json
+    @NotBlank String uuid,
+    @NotEmpty List<Resource> namespaces
 ) {
 }

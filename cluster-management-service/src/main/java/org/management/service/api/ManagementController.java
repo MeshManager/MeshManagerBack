@@ -7,22 +7,19 @@ import org.management.service.service.ManagementService;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/agent/cluster")
+@RequestMapping("/api/v1/management/cluster")
 @RestController
 public class ManagementController {
 
   private final ManagementService managementService;
 
-  @PostMapping("/{clusterId}")
-  public StatusResponse processClusterResource(
-      @PathVariable(name = "clusterId") Long clusterId,
-      @RequestBody ClusterResourceRequest request
-  ) {
-    return managementService.processClusterResource(String.valueOf(clusterId), request);
+  @PostMapping
+  public StatusResponse saveClusterResource(@RequestBody ClusterResourceRequest request) {
+    return managementService.saveClusterResource(request);
   }
 
   @PatchMapping("/{clusterId}/changes")
-  public StatusResponse notifyAgentOnResourceChange(@PathVariable(name = "clusterId") Long clusterId) {
+  public StatusResponse notifyAgentOnResourceChange(@PathVariable(name = "clusterId") String clusterId) {
     return managementService.notifyAgentOnResourceChange(clusterId);
   }
 }
