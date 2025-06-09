@@ -41,6 +41,16 @@ public class ManagementService {
     return StatusResponse.of(true);
   }
 
+  @Transactional
+  public StatusResponse notifyAgentOnResourceChange(Long clusterId) {
+    List<ClusterResource> clusterResources = clusterResourceRepository.findAllByClusterIdAndChangedIsTrue(clusterId);
+    List<String> links = new ArrayList<>();
+
+    // TODO: 매니페스트 파일 형식으로 반환
+
+    return StatusResponse.of(links);
+  }
+
   private List<ClusterResource> parseJsonToResources(String clusterId, Map<String, Object> jsonData) {
     List<ClusterResource> result = new ArrayList<>();
     Object nsObj = jsonData.get("namespaces");

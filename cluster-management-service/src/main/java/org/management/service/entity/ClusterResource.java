@@ -23,6 +23,8 @@ public class ClusterResource {
 
   private String yaml;
 
+  private boolean changed;
+
   public static ClusterResource create(
       String clusterId, String namespace, String kind, String yaml
   ) {
@@ -31,6 +33,11 @@ public class ClusterResource {
         .namespace(namespace)
         .kind(kind)
         .yaml(yaml)
+        .changed(false)
         .build();
+  }
+
+  public void updateChanged() {
+    this.changed = false;
   }
 }

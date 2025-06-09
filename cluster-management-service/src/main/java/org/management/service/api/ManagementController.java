@@ -20,4 +20,9 @@ public class ManagementController {
   ) {
     return managementService.processClusterResource(String.valueOf(clusterId), request);
   }
+
+  @PatchMapping("/{clusterId}/changes")
+  public StatusResponse notifyAgentOnResourceChange(@PathVariable(name = "clusterId") Long clusterId) {
+    return managementService.notifyAgentOnResourceChange(clusterId);
+  }
 }
