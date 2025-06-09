@@ -1,4 +1,4 @@
-package org.management.service.dto;
+package org.management.service.dto.request;
 
 import java.util.List;
 import java.util.Map;
