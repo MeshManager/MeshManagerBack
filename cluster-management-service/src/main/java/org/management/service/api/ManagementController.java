@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.management.service.common.StatusResponse;
 import org.management.service.dto.request.ClusterResourceRequest;
 import org.management.service.dto.response.ClusterNamespacesResponse;
+import org.management.service.dto.response.ClusterServicesResponse;
 import org.management.service.service.ManagementService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,13 @@ public class ManagementController {
   @GetMapping("/namespaces")
   public ClusterNamespacesResponse getClusterNamespaces(@RequestParam(name = "clusterId") UUID clusterId) {
     return managementService.getClusterNamespaces(clusterId);
+  }
+
+  @GetMapping("/namespaces/{namespace}/services")
+  public ClusterServicesResponse getServicesByNamespace(
+      @PathVariable(name = "namespace") String namespace,
+      @RequestParam(name = "clusterId") UUID clusterId
+  ) {
+    return managementService.getServicesByNamespace(namespace, clusterId);
   }
 }

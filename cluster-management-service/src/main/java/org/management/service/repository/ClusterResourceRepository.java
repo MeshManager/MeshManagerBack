@@ -20,4 +20,16 @@ public interface ClusterResourceRepository extends JpaRepository<ClusterResource
     WHERE cluster_id = :clusterId
   """, nativeQuery = true)
   List<String> findDistinctNamespacesByClusterId(@Param("clusterId") UUID clusterId);
+
+  @Query(value = """
+    SELECT JSON_UNQUOTE(JSON_EXTRACT(yaml, '$.name'))
+    FROM cluster_resource
+    WHERE kind = 'Service'
+      AND cluster_id = :clusterId
+      AND namespace = :namespace
+  """, nativeQuery = true)
+  List<String> findServiceNamesByClusterIdAndNamespace(
+      @Param("clusterId") UUID clusterId,
+      @Param("namespace") String namespace
+  );
 }
