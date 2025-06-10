@@ -30,14 +30,14 @@ public class ClusterController {
   }
 
   @GetMapping("/namespaces")
-  public NamespaceListResponse getServiceNames(@RequestParam(name = "clusterId")UUID clusterId) {
+  public NamespaceListResponse getServiceNames(@RequestParam(name = "clusterId") UUID clusterId) {
     return clusterService.fetchNamespaces(clusterId);
   }
 
-  @GetMapping("/namespaces/{namespace}/services")
+  @GetMapping("/services")
   public ServiceNameListResponse getNamespaces(
-      @PathVariable(name = "namespace") String namespace,
-      @RequestParam(name = "clusterId")UUID clusterId
+      @RequestParam(name = "namespace") String namespace,
+      @RequestParam(name = "clusterId") UUID clusterId
   ) {
     return clusterService.fetchServiceNames(clusterId, namespace);
   }
