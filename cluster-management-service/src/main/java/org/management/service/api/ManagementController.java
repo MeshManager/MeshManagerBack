@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/management/cluster")
+@RequestMapping("/api/v1/management/clusters")
 @RestController
 public class ManagementController {
 
@@ -34,15 +34,15 @@ public class ManagementController {
     return managementService.getClusterNamespaces(clusterId);
   }
 
-  @GetMapping("/namespaces/{namespace}/services")
+  @GetMapping("/services")
   public ClusterServicesResponse getServicesByNamespace(
-      @PathVariable(name = "namespace") String namespace,
+      @RequestParam(name = "namespace") String namespace,
       @RequestParam(name = "clusterId") UUID clusterId
   ) {
     return managementService.getServicesByNamespace(namespace, clusterId);
   }
 
-  @GetMapping
+  @GetMapping("/deployments")
   public DataResponse<DeploymentResponse> getContainers(
       @RequestParam(name = "namespace") String namespace,
       @RequestParam(name = "serviceName") String serviceName,
