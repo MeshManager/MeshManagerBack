@@ -95,7 +95,7 @@ public class ManagementService {
     }
 
     if (selectorApp == null) {
-      return DataResponse.of(Collections.emptyList()); // No matching service
+      return DataResponse.of(Collections.emptyList());
     }
 
     // Step 2: Find all matching Deployments
@@ -108,7 +108,6 @@ public class ManagementService {
           JsonNode podLabels = node.get("podLabels");
 
           if (podLabels != null && selectorApp.equals(podLabels.get("app").asText())) {
-            // Extract containers
             List<ContainerInfo> containers = new ArrayList<>();
             JsonNode containersNode = node.get("containers");
             if (containersNode != null && containersNode.isArray()) {
@@ -120,7 +119,6 @@ public class ManagementService {
               }
             }
 
-            // Convert podLabels to Map<String, String>
             Map<String, String> labelsMap = new HashMap<>();
             podLabels.fields().forEachRemaining(e -> labelsMap.put(e.getKey(), e.getValue().asText()));
 
