@@ -32,4 +32,6 @@ public interface ClusterResourceRepository extends JpaRepository<ClusterResource
       @Param("clusterId") UUID clusterId,
       @Param("namespace") String namespace
   );
+
+  List<ClusterResource> findByNamespaceAndClusterId(String namespace, UUID clusterId);
 }
