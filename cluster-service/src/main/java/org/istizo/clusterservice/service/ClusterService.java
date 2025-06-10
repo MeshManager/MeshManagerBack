@@ -2,11 +2,8 @@ package org.istizo.clusterservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.istizo.clusterservice.common.DataResponse;
-import org.istizo.clusterservice.dto.response.ClusterListResponse;
+import org.istizo.clusterservice.dto.response.*;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
-import org.istizo.clusterservice.dto.response.NamespaceListResponse;
-import org.istizo.clusterservice.dto.response.RegisterClusterResponse;
-import org.istizo.clusterservice.dto.response.ServiceNameListResponse;
 import org.istizo.clusterservice.entity.Cluster;
 import org.istizo.clusterservice.repository.ClusterRepository;
 import org.springframework.stereotype.Service;
@@ -37,19 +34,29 @@ public class ClusterService {
     return DataResponse.of(clusters);
   }
 
-  public NamespaceListResponse fetchNamespaces(UUID clusterId) {
+  // TODO: 서버 배포 후 엔드포인트 수정
+  public NamespaceListResponse getNamespaces(UUID clusterId) {
     String url = String.format(
-        "http://localhost:8080/api/v1/management/cluster/namespaces?clusterId=%s", clusterId
+        "http://localhost:8085/api/v1/management/clusters/namespaces?clusterId=%s", clusterId
     );
     return restTemplate.getForObject(url, NamespaceListResponse.class);
   }
 
-  public ServiceNameListResponse fetchServiceNames(UUID clusterId, String namespace) {
+  public ServiceNameListResponse getServiceNames(UUID clusterId, String namespace) {
     String url = String.format(
-        "http://localhost:8080/api/v1/management/cluster/namespaces/%s/services?clusterId=%s",
-        namespace, clusterId
+        "http://localhost:8085/api/v1/management/clusters/services?clusterId=%s&namespace=%s",
+        clusterId, namespace
     );
 
     return restTemplate.getForObject(url, ServiceNameListResponse.class);
+  }
+
+  public DeploymentListResponse getDeployments(UUID clusterId, String namespace, String serviceName) {
+    String url = String.format(
+        "http://localhost:8085/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
+        clusterId, namespace, serviceName
+    );
+
+    return restTemplate.getForObject(url, DeploymentListResponse.class);
   }
 }

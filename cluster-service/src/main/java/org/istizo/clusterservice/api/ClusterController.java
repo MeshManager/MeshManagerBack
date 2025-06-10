@@ -3,10 +3,7 @@ package org.istizo.clusterservice.api;
 import lombok.RequiredArgsConstructor;
 import org.istizo.clusterservice.common.DataResponse;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
-import org.istizo.clusterservice.dto.response.ClusterListResponse;
-import org.istizo.clusterservice.dto.response.NamespaceListResponse;
-import org.istizo.clusterservice.dto.response.RegisterClusterResponse;
-import org.istizo.clusterservice.dto.response.ServiceNameListResponse;
+import org.istizo.clusterservice.dto.response.*;
 import org.istizo.clusterservice.service.ClusterService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +27,24 @@ public class ClusterController {
   }
 
   @GetMapping("/namespaces")
-  public NamespaceListResponse getServiceNames(@RequestParam(name = "clusterId") UUID clusterId) {
-    return clusterService.fetchNamespaces(clusterId);
+  public NamespaceListResponse getNamespaces(@RequestParam(name = "clusterId") UUID clusterId) {
+    return clusterService.getNamespaces(clusterId);
   }
 
   @GetMapping("/services")
-  public ServiceNameListResponse getNamespaces(
+  public ServiceNameListResponse getServiceNames(
       @RequestParam(name = "namespace") String namespace,
       @RequestParam(name = "clusterId") UUID clusterId
   ) {
-    return clusterService.fetchServiceNames(clusterId, namespace);
+    return clusterService.getServiceNames(clusterId, namespace);
+  }
+
+  @GetMapping("/deployments")
+  public DeploymentListResponse getDeployments(
+      @RequestParam(name = "namespace") String namespace,
+      @RequestParam(name = "serviceName") String serviceName,
+      @RequestParam(name = "clusterId") UUID clusterId
+  ) {
+    return clusterService.getDeployments(clusterId, namespace, serviceName);
   }
 }
