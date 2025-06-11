@@ -62,7 +62,7 @@ public class ManagementService {
     return ClusterServicesResponse.of(serviceNames);
   }
 
-  public DataResponse<DeploymentResponse> fetchContainers(UUID clusterId, String namespace, String serviceName) {
+  public DataResponse<DeploymentResponse> getDeployments(UUID clusterId, String namespace, String serviceName) {
     List<ClusterResource> resources = clusterResourceRepository.findByNamespaceAndClusterId(namespace, clusterId);
 
     String selectorApp = null;
