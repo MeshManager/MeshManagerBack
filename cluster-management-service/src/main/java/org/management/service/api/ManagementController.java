@@ -1,5 +1,6 @@
 package org.management.service.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.management.service.common.DataResponse;
 import org.management.service.common.StatusResponse;
@@ -19,16 +20,26 @@ public class ManagementController {
 
   private final ManagementService managementService;
 
+  @Operation(
+      summary = "고객 k8s 클러스터의 리소스 저장 API",
+      description = "해시 값이 변경될 때만 기존 리소스 (service, deployment)를 삭제하고 다시 저장함"
+  )
   @PostMapping
   public StatusResponse saveClusterResource(@RequestBody ClusterResourceRequest request) {
     return managementService.saveClusterResource(request);
   }
 
+  @Operation(
+      summary = "고객 k8s 클러스터의 네임스페이스 목록 조회 API (내부 호출용)"
+  )
   @GetMapping("/namespaces")
   public ClusterNamespacesResponse getClusterNamespaces(@RequestParam(name = "clusterId") UUID clusterId) {
     return managementService.getClusterNamespaces(clusterId);
   }
 
+  @Operation(
+      summary = "고객 k8s 클러스터의 네임스페이스 별 서비스 이름 목록 조회 API (내부 호출용)"
+  )
   @GetMapping("/services")
   public ClusterServicesResponse getServicesByNamespace(
       @RequestParam(name = "namespace") String namespace,
@@ -37,15 +48,21 @@ public class ManagementController {
     return managementService.getServicesByNamespace(namespace, clusterId);
   }
 
+  @Operation(
+      summary = "고객 k8s 클러스터의 deployment 데이터 조회 API (내부 호출용)"
+  )
   @GetMapping("/deployments")
-  public DataResponse<DeploymentResponse> getContainers(
+  public DataResponse<DeploymentResponse> getDeployments(
       @RequestParam(name = "namespace") String namespace,
       @RequestParam(name = "serviceName") String serviceName,
       @RequestParam(name = "clusterId") UUID clusterId
   ) {
-    return managementService.fetchContainers(clusterId, namespace, serviceName);
+    return managementService.getDeployments(clusterId, namespace, serviceName);
   }
 
+  @Operation(
+      summary = "고객 k8s 클러스터의 CRD 조회 API"
+  )
   @GetMapping("/crd")
   public ResponseEntity<String> getClusterCRD(@RequestParam(name = "clusterId") UUID clusterId) {
     return ResponseEntity.ok()
