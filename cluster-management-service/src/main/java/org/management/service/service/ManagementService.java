@@ -9,10 +9,10 @@ import org.management.service.common.StatusResponse;
 import org.management.service.dto.ContainerInfo;
 import org.management.service.dto.request.ClusterResourceRequest;
 import org.management.service.dto.request.Resource;
-import org.management.service.dto.response.ClusterNamespacesResponse;
-import org.management.service.dto.response.ClusterServicesResponse;
-import org.management.service.dto.response.DeploymentResponse;
+import org.management.service.dto.response.*;
+import org.management.service.entity.ClusterCRD;
 import org.management.service.entity.ClusterResource;
+import org.management.service.repository.ClusterCRDRepository;
 import org.management.service.repository.ClusterResourceRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,7 @@ public class ManagementService {
   private static final String SERVICE_KIND = "Service";
 
   private final ClusterResourceRepository clusterResourceRepository;
+  private final ClusterCRDRepository clusterCRDRepository;
 
   private final RedisTemplate<String, String> redisTemplate;
   private final ObjectMapper objectMapper = new ObjectMapper();
@@ -164,5 +165,12 @@ public class ManagementService {
     } catch (JsonProcessingException e) {
       return "{}";
     }
+  }
+
+  public String getClusterCRD(UUID clusterId) {
+    ClusterCRD clusterCRD = clusterCRDRepository.findByClusterId(clusterId)
+        .orElseThrow(null);
+
+    return clusterCRD.getYaml();
   }
 }
