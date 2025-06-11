@@ -1,4 +1,4 @@
-package org.istizo.canaryservice.common;
+package org.istizo.crdservice.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

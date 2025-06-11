@@ -1,4 +1,4 @@
-package org.istizo.canaryservice;
+package org.istizo.crdservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

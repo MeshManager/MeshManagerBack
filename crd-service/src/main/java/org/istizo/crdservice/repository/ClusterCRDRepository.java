@@ -1,6 +1,6 @@
-package org.istizo.canaryservice.repository;
+package org.istizo.crdservice.repository;
 
-import org.istizo.canaryservice.entity.ClusterCRD;
+import org.istizo.crdservice.entity.ClusterCRD;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

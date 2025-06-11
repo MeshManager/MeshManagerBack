@@ -1,4 +1,4 @@
-package org.istizo.canaryservice.entity;
+package org.istizo.crdservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

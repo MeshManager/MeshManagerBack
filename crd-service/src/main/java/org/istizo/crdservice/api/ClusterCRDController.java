@@ -1,8 +1,8 @@
-package org.istizo.canaryservice.api;
+package org.istizo.crdservice.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.istizo.canaryservice.service.ClusterCRDService;
+import org.istizo.crdservice.service.ClusterCRDService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

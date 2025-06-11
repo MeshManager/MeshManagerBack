@@ -1,8 +1,8 @@
-package org.istizo.canaryservice.service;
+package org.istizo.crdservice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.istizo.canaryservice.entity.ClusterCRD;
-import org.istizo.canaryservice.repository.ClusterCRDRepository;
+import org.istizo.crdservice.entity.ClusterCRD;
+import org.istizo.crdservice.repository.ClusterCRDRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
