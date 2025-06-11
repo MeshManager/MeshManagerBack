@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.management.service.common.DataResponse;
 import org.management.service.common.StatusResponse;
 import org.management.service.dto.request.ClusterResourceRequest;
-import org.management.service.dto.response.ClusterNamespacesResponse;
-import org.management.service.dto.response.ClusterServicesResponse;
-import org.management.service.dto.response.DeploymentResponse;
+import org.management.service.dto.response.*;
 import org.management.service.service.ManagementService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -22,11 +22,6 @@ public class ManagementController {
   @PostMapping
   public StatusResponse saveClusterResource(@RequestBody ClusterResourceRequest request) {
     return managementService.saveClusterResource(request);
-  }
-
-  @PatchMapping("/{clusterId}/changes")
-  public StatusResponse notifyAgentOnResourceChange(@PathVariable(name = "clusterId") String clusterId) {
-    return managementService.notifyAgentOnResourceChange(clusterId);
   }
 
   @GetMapping("/namespaces")
@@ -49,5 +44,12 @@ public class ManagementController {
       @RequestParam(name = "clusterId") UUID clusterId
   ) {
     return managementService.fetchContainers(clusterId, namespace, serviceName);
+  }
+
+  @GetMapping("/crd")
+  public ResponseEntity<String> getClusterCRD(@RequestParam(name = "clusterId") UUID clusterId) {
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8")
+        .body(managementService.getClusterCRD(clusterId));
   }
 }
