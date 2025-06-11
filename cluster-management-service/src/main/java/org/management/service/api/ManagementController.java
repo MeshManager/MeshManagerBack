@@ -24,11 +24,6 @@ public class ManagementController {
     return managementService.saveClusterResource(request);
   }
 
-  @PatchMapping("/{clusterId}/changes")
-  public StatusResponse notifyAgentOnResourceChange(@PathVariable(name = "clusterId") String clusterId) {
-    return managementService.notifyAgentOnResourceChange(clusterId);
-  }
-
   @GetMapping("/namespaces")
   public ClusterNamespacesResponse getClusterNamespaces(@RequestParam(name = "clusterId") UUID clusterId) {
     return managementService.getClusterNamespaces(clusterId);

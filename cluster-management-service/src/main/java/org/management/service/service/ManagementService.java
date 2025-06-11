@@ -51,16 +51,6 @@ public class ManagementService {
     return StatusResponse.of(true);
   }
 
-  @Transactional
-  public StatusResponse notifyAgentOnResourceChange(String clusterId) {
-    List<ClusterResource> clusterResources = clusterResourceRepository.findAllByClusterIdAndChangedIsTrue(UUID.fromString(clusterId));
-    List<String> links = new ArrayList<>();
-
-    // TODO: 매니페스트 파일 형식으로 반환
-
-    return StatusResponse.of(links);
-  }
-
   public ClusterNamespacesResponse getClusterNamespaces(UUID clusterId) {
     List<String> namespaces = clusterResourceRepository.findDistinctNamespacesByClusterId(clusterId);
     return ClusterNamespacesResponse.of(namespaces);
