@@ -7,8 +7,6 @@ import org.management.service.common.StatusResponse;
 import org.management.service.dto.request.ClusterResourceRequest;
 import org.management.service.dto.response.*;
 import org.management.service.service.ManagementService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -58,15 +56,5 @@ public class ManagementController {
       @RequestParam(name = "clusterId") UUID clusterId
   ) {
     return managementService.getDeployments(clusterId, namespace, serviceName);
-  }
-
-  @Operation(
-      summary = "고객 k8s 클러스터의 CRD 조회 API"
-  )
-  @GetMapping("/crd")
-  public ResponseEntity<String> getClusterCRD(@RequestParam(name = "clusterId") UUID clusterId) {
-    return ResponseEntity.ok()
-        .header(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8")
-        .body(managementService.getClusterCRD(clusterId));
   }
 }
