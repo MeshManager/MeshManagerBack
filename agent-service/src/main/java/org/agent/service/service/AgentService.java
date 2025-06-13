@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -53,5 +54,9 @@ public class AgentService {
             true // 등록만 되어 있으면 무조건 연결됨으로 표시
         ))
         .toList();
+  }
+
+  public Set<String> getConnectedAgentNames() {
+    return redisService.getAllKeys();
   }
 }

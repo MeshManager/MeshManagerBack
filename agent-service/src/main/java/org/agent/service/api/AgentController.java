@@ -10,10 +10,12 @@ import org.agent.service.service.AgentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/agent")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class AgentController {
 
   private final AgentService agentService;
@@ -51,5 +53,13 @@ public class AgentController {
   @GetMapping
   public List<AgentStatusResponse> getAllAgentStatuses() {
     return agentService.getAllAgentStatuses();
+  }
+
+  @Operation(
+      summary = "Redis에 연결된 모든 에이전트 이름 조회 API"
+  )
+  @GetMapping("/connected")
+  public Set<String> getConnectedAgentNames() {
+    return agentService.getConnectedAgentNames();
   }
 }

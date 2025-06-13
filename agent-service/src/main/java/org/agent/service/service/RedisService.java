@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,5 +21,9 @@ public class RedisService {
   public boolean exists(String key) {
     Boolean hasKey = redisTemplate.hasKey(key);
     return Boolean.TRUE.equals(hasKey);
+  }
+
+  public Set<String> getAllKeys() {
+    return redisTemplate.keys("*");
   }
 }

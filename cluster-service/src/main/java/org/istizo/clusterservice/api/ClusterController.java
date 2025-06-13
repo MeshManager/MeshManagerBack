@@ -14,6 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cluster")
 @RestController
+
 public class ClusterController {
 
   private final ClusterService clusterService;
