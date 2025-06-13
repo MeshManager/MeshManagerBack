@@ -14,6 +14,10 @@ public interface ClusterResourceRepository extends JpaRepository<ClusterResource
 
   List<ClusterResource> findAllByClusterIdAndChangedIsTrue(UUID clusterId);
 
+  List<ClusterResource> findAllByClusterIdAndNamespaceAndKind(UUID clusterId, String namespace, String kind);
+
+  List<ClusterResource> findAllByClusterId(UUID clusterId);
+
   @Query(value = """
     SELECT DISTINCT namespace
     FROM cluster_resource

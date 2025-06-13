@@ -1,6 +1,7 @@
 package org.management.service.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.management.service.common.StatusResponse;
@@ -8,6 +9,9 @@ import org.management.service.dto.request.ClusterResourceRequest;
 import org.management.service.dto.request.Resource;
 import org.management.service.dto.response.ClusterNamespacesResponse;
 import org.management.service.dto.response.ClusterServicesResponse;
+import org.management.service.dto.response.ClusterDetailResponse;
+import org.management.service.dto.response.NamespaceDetail;
+import org.management.service.dto.response.ResourceDetail;
 import org.management.service.entity.ClusterResource;
 import org.management.service.repository.ClusterResourceRepository;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -66,6 +72,79 @@ public class ManagementService {
   public ClusterServicesResponse getServicesByNamespace(String namespace, UUID clusterId) {
     List<String> serviceNames = clusterResourceRepository.findServiceNamesByClusterIdAndNamespace(clusterId, namespace);
     return ClusterServicesResponse.of(serviceNames);
+  }
+
+  public Optional<String> getClusterResourceYaml(UUID clusterId, String namespace, String kind, String resourceName) {
+    List<ClusterResource> resources = clusterResourceRepository.findAllByClusterIdAndNamespaceAndKind(clusterId, namespace, kind);
+    ObjectMapper mapper = new ObjectMapper();
+
+    for (ClusterResource resource : resources) {
+      try {
+        Map<String, Object> yamlMap = mapper.readValue(resource.getYaml(), new TypeReference<Map<String, Object>>() {});
+        if (yamlMap.containsKey("metadata") && ((Map<String, Object>) yamlMap.get("metadata")).get("name").equals(resourceName)) {
+          return Optional.of(resource.getYaml());
+        }
+      } catch (JsonProcessingException e) {
+        // Log the error or handle it as appropriate
+        System.err.println("Error parsing YAML for resource: " + e.getMessage());
+      }
+    }
+    return Optional.empty();
+  }
+
+  public ClusterDetailResponse getClusterDetails(UUID clusterId) {
+    List<ClusterResource> allResources = clusterResourceRepository.findAllByClusterId(clusterId);
+    ObjectMapper mapper = new ObjectMapper();
+
+    Map<String, List<ClusterResource>> resourcesByNamespace = allResources.stream()
+        .collect(Collectors.groupingBy(ClusterResource::getNamespace));
+
+    List<NamespaceDetail> namespaceDetails = resourcesByNamespace.entrySet().stream()
+        .map(entry -> {
+          String namespace = entry.getKey();
+          List<ClusterResource> resourcesInNamespace = entry.getValue();
+
+          List<ResourceDetail> deployments = resourcesInNamespace.stream()
+              .filter(r -> DEPLOYMENT_KIND.equals(r.getKind()))
+              .map(r -> buildResourceDetail(mapper, r))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList());
+
+          List<ResourceDetail> services = resourcesInNamespace.stream()
+              .filter(r -> SERVICE_KIND.equals(r.getKind()))
+              .map(r -> buildResourceDetail(mapper, r))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList());
+
+          return NamespaceDetail.builder()
+              .namespace(namespace)
+              .deployments(deployments)
+              .services(services)
+              .build();
+        })
+        .collect(Collectors.toList());
+
+    return ClusterDetailResponse.builder()
+        .clusterId(clusterId)
+        .namespaces(namespaceDetails)
+        .build();
+  }
+
+  private Optional<ResourceDetail> buildResourceDetail(ObjectMapper mapper, ClusterResource resource) {
+    try {
+      Map<String, Object> yamlMap = mapper.readValue(resource.getYaml(), new TypeReference<Map<String, Object>>() {});
+      String name = (String) ((Map<String, Object>) yamlMap.get("metadata")).get("name");
+      return Optional.of(ResourceDetail.builder()
+          .name(name)
+          .kind(resource.getKind())
+          .yaml(resource.getYaml())
+          .build());
+    } catch (JsonProcessingException | NullPointerException e) {
+      System.err.println("Error processing resource for details: " + e.getMessage());
+      return Optional.empty();
+    }
   }
 
   private List<ClusterResource> buildResources(String clusterId, List<Resource> namespaces) {

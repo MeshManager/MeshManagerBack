@@ -1,0 +1,155 @@
+    POST http://localhost:8080/api/v1/management/cluster
+    Content-Type: application/json
+
+    {
+      "hash": "4f6f2ca6788be69dd45094e5a7e7939aba3559d5ec49e30165ca82450850bf30",
+      "namespaces": [
+        {
+          "deployments": [
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-position-tracker:6",
+                  "name": "position-tracker"
+                }
+              ],
+              "name": "position-tracker",
+              "podLabels": {
+                "app": "position-tracker"
+              },
+              "replicas": 1
+            },
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-staff-service:6-placeholder",
+                  "name": "staff-service"
+                }
+              ],
+              "name": "staff-service",
+              "podLabels": {
+                "app": "staff-service",
+                "version": "safe"
+              },
+              "replicas": 1
+            },
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-staff-service:6",
+                  "name": "staff-service"
+                }
+              ],
+              "name": "staff-service-risky-version",
+              "podLabels": {
+                "app": "staff-service",
+                "version": "risky"
+              },
+              "replicas": 1
+            },
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-vehicle-telemetry:6",
+                  "name": "vehicle-telemtry"
+                }
+              ],
+              "name": "vehicle-telemetry",
+              "podLabels": {
+                "app": "vehicle-telemetry"
+              },
+              "replicas": 1
+            },
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-webapp-angular:6",
+                  "name": "webapp"
+                }
+              ],
+              "name": "webapp",
+              "podLabels": {
+                "app": "webapp"
+              },
+              "replicas": 1
+            },
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-api-gateway:6",
+                  "name": "api-gateway"
+                }
+              ],
+              "name": "api-gateway",
+              "podLabels": {
+                "app": "api-gateway"
+              },
+              "replicas": 1
+            },
+            {
+              "containers": [
+                {
+                  "image": "richardchesterwood/istio-fleetman-position-simulator:6",
+                  "name": "position-simulator"
+                }
+              ],
+              "name": "position-simulator",
+              "podLabels": {
+                "app": "position-simulator"
+              },
+              "replicas": 1
+            }
+          ],
+          "namespace": "default",
+          "services": [
+            {
+              "clusterIP": "10.96.0.1",
+              "name": "kubernetes",
+              "selector": null,
+              "type": "ClusterIP"
+            },
+            {
+              "clusterIP": "10.101.234.61",
+              "name": "fleetman-api-gateway",
+              "selector": {
+                "app": "api-gateway"
+              },
+              "type": "ClusterIP"
+            },
+            {
+              "clusterIP": "10.99.41.255",
+              "name": "fleetman-position-tracker",
+              "selector": {
+                "app": "position-tracker"
+              },
+              "type": "ClusterIP"
+            },
+            {
+              "clusterIP": "10.110.179.9",
+              "name": "fleetman-staff-service",
+              "selector": {
+                "app": "staff-service"
+              },
+              "type": "ClusterIP"
+            },
+            {
+              "clusterIP": "10.105.204.157",
+              "name": "fleetman-vehicle-telemetry",
+              "selector": {
+                "app": "vehicle-telemetry"
+              },
+              "type": "ClusterIP"
+            },
+            {
+              "clusterIP": "10.109.172.250",
+              "name": "fleetman-webapp",
+              "selector": {
+                "app": "webapp"
+              },
+              "type": "NodePort"
+            }
+          ]
+        }
+      ],
+      "uuid": "01234567-89ab-cdef-0123-456789abcdef"
+    }

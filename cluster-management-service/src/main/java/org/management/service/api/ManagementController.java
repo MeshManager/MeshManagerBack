@@ -5,7 +5,9 @@ import org.management.service.common.StatusResponse;
 import org.management.service.dto.request.ClusterResourceRequest;
 import org.management.service.dto.response.ClusterNamespacesResponse;
 import org.management.service.dto.response.ClusterServicesResponse;
+import org.management.service.dto.response.ClusterDetailResponse;
 import org.management.service.service.ManagementService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -38,5 +40,22 @@ public class ManagementController {
       @RequestParam(name = "clusterId") UUID clusterId
   ) {
     return managementService.getServicesByNamespace(namespace, clusterId);
+  }
+
+  @GetMapping("/namespaces/{namespace}/{kind}/{resourceName}/yaml")
+  public ResponseEntity<String> getResourceYaml(
+      @RequestParam(name = "clusterId") UUID clusterId,
+      @PathVariable(name = "namespace") String namespace,
+      @PathVariable(name = "kind") String kind,
+      @PathVariable(name = "resourceName") String resourceName
+  ) {
+    return managementService.getClusterResourceYaml(clusterId, namespace, kind, resourceName)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/{clusterId}/details")
+  public ClusterDetailResponse getClusterDetails(@PathVariable(name = "clusterId") UUID clusterId) {
+    return managementService.getClusterDetails(clusterId);
   }
 }

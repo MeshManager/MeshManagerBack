@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/clusterResourceDB
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: root
+    password: test1234
   jpa:
     hibernate:
       ddl-auto: update
