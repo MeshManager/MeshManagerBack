@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/agentdb
+    username: root
+    password: test1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8081

@@ -23,10 +23,14 @@ public class Agent {
   @Column(name = "cluster_id", nullable = false, unique = true)
   private UUID clusterId;
 
+  @Column(nullable = false)
+  private boolean connected;
+
   public static Agent create(String name, UUID clusterId) {
     return Agent.builder()
         .name(name)
         .clusterId(clusterId)
+        .connected(true)
         .build();
   }
 }
