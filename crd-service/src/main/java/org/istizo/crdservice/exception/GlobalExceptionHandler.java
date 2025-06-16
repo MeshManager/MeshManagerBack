@@ -1,4 +1,4 @@
-package org.management.service.exception;
+package org.istizo.crdservice.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.management.service.common.StatusResponse;
