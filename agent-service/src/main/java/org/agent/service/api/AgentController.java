@@ -32,11 +32,8 @@ public class AgentController {
       summary = "고객 k8s의 클러스터 리소스 상태 확인 API"
   )
   @PostMapping("/{agentName}/cluster-state")
-  public StatusResponse saveClusterState(
-      @PathVariable(name = "agentName") String agentName,
-      @RequestBody SaveClusterStateRequest request
-  ) {
-    return agentService.saveClusterState(agentName, request);
+  public StatusResponse saveClusterState(@PathVariable(name = "agentName") String agentName) {
+    return agentService.saveClusterState(agentName);
   }
 
   @Operation(

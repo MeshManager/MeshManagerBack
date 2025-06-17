@@ -14,8 +14,8 @@ public class RedisService {
   private final RedisTemplate<String, Object> redisTemplate;
   private static final Duration TTL = Duration.ofMinutes(3);
 
-  public void saveJsonWithTTL(String key, Object jsonObject) {
-    redisTemplate.opsForValue().set(key, jsonObject, TTL);
+  public void saveWithTTL(String key) {
+    redisTemplate.opsForValue().set(key, "value", TTL);
   }
 
   public boolean exists(String key) {
