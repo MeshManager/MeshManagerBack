@@ -23,6 +23,8 @@ public class ClusterResource {
 
   private String kind;
 
+  @Lob
+  @Column(columnDefinition = "LONGTEXT")
   private String yaml;
 
   private boolean changed;
