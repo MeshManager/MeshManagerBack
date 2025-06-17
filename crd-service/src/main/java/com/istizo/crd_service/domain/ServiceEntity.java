@@ -15,7 +15,7 @@ public class ServiceEntity {
     private Long id;
 
     @Column(nullable = false)
-    private UUID istioRouteId;
+    private UUID uuid;
 
     @Column(nullable = false)
     private String name;
