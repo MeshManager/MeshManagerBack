@@ -32,17 +32,6 @@ public interface CrdApiSpecification {
     @GetMapping("/{darknessReleaseID}")
     ResForm<CrdResponseDTO.toGetdarknessReleaseDTO> getdarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
 
-    @Operation(summary = "현재 배포되고 있는 Service Entity가 가지고 있는 dependency, darknessRelease ID 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 dependency, darknessRelease ID를 조회합니다.")
-    @GetMapping("/{serviceEntityID}/dependant")
-    ResForm<CrdResponseDTO.toResponseDependantID> getDependantID(@PathVariable("serviceEntityID") Long serviceEntityID);
-
-
-    @Operation(summary = "registor Clustor API", description = "UUID를 이용해 cluster를 등록합니다.")
-    @PostMapping("/{uuid}/istioRoute")
-    ResForm<CrdResponseDTO.toResponseID> createIstioRoute(
-            @PathVariable("uuid") UUID uuid,
-            @Valid @RequestBody CrdRequestDTO.toRegistorIstioRouteDTO toRegistorIstioRouteDTO);
-
     @Operation(summary = "serviceEntity 생성 API", description = "UUID를 이용해 serviceEntity를 생성합니다.")
     @PostMapping("/{uuid}/serviceEntity")
     ResForm<CrdResponseDTO.toResponseID> createServiceEntity(

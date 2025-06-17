@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface DarknessReleaseRepository extends JpaRepository<DarknessRelease, Long> {
 
+    Long findDarknessReleaseIdByServiceEntityId(Long ServiceEntityId);
 }

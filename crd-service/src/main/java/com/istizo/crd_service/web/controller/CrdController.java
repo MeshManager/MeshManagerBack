@@ -35,16 +35,6 @@ public class CrdController implements CrdApiSpecification {
     }
 
     @Override
-    public ResForm<CrdResponseDTO.toResponseDependantID> getDependantID(Long serviceEntityID) {
-        return null;
-    }
-
-    @Override
-    public ResForm<CrdResponseDTO.toResponseID> createIstioRoute(UUID uuid, CrdRequestDTO.toRegistorIstioRouteDTO toRegistorIstioRouteDTO) {
-        return null;
-    }
-
-    @Override
     public ResForm<CrdResponseDTO.toResponseID> createServiceEntity(UUID uuid, CrdRequestDTO.toCreateServiceEntityDTO createServiceEntityDTO) {
         return null;
     }

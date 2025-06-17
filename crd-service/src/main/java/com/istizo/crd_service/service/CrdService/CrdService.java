@@ -10,15 +10,14 @@ public interface CrdService {
     CrdResponseDTO.toGetServiceEntityDTO GetServiceEntityDTO(Long serviceEntityID);
     CrdResponseDTO.toGetDependencyDTO GetDependencyDTO(Long dependencyID);
     CrdResponseDTO.toGetdarknessReleaseDTO GetDarknessReleaseDTO(Long darknessReleaseID);
-    CrdResponseDTO.toResponseDependantID GetDependantID(Long serviceEntityID);
 
-    CrdResponseDTO.toResponseID CreateServiceEntity(CrdRequestDTO.toCreateServiceEntityDTO serviceEntityDTO);
-    CrdResponseDTO.toResponseID CreateDependency(CrdRequestDTO.toCreateDependencyDTO dependencyDTO);
-    CrdResponseDTO.toResponseID CreateDarknessRelease(CrdRequestDTO.toCreateDarknessReleaseDTO DarknessReleaseDTO);
+    CrdResponseDTO.toResponseID CreateServiceEntity(UUID uuid, CrdRequestDTO.toCreateServiceEntityDTO serviceEntityDTO);
+    CrdResponseDTO.toResponseID CreateDependency(UUID uuid, CrdRequestDTO.toCreateDependencyDTO dependencyDTO);
+    CrdResponseDTO.toResponseID CreateDarknessRelease(UUID uuid, CrdRequestDTO.toCreateDarknessReleaseDTO DarknessReleaseDTO);
 
-    CrdResponseDTO.toResponseID DeleteServiceEntity();
-    CrdResponseDTO.toResponseID DeleteDependency();
-    CrdResponseDTO.toResponseID DeleteDarknessRelease();
+    CrdResponseDTO.toResponseID DeleteServiceEntity(Long serviceEntityID);
+    CrdResponseDTO.toResponseID DeleteDependency(Long dependencyID);
+    CrdResponseDTO.toResponseID DeleteDarknessRelease(Long darknessReleaseID);
 
 
 
