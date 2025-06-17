@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 
 @Tag(name = "CRD API", description = "Agent CRD 관련 API")
 @RestController
@@ -24,42 +26,50 @@ public interface CrdApiSpecification {
 
     @Operation(summary = "현재 배포되고 있는 dependency 조회 API", description = "dependency ID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
     @GetMapping("/{dependencyID}")
-    ResForm<crdResponseDTO.toGetServiceEntityDTO> getDependency(@PathVariable("dependencyID") Long dependencyID);
+    ResForm<crdResponseDTO.toGetDependencyDTO> getDependency(@PathVariable("dependencyID") Long dependencyID);
 
     @Operation(summary = "현재 배포되고 있는 darknessRelease 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
     @GetMapping("/{darknessReleaseID}")
-    ResForm<crdResponseDTO.toGetServiceEntityDTO> getdarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
+    ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getdarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
+
 
     @Operation(summary = "registor Clustor API", description = "UUID를 이용해 cluster를 등록합니다.")
     @PostMapping("/{uuid}/istioRoute")
     ResForm<crdResponseDTO.toResponseID> createIstioRoute(
+            @PathVariable("uuid") UUID uuid,
             @Valid @RequestBody crdRequestDTO.toRegistorIstioRouteDTO toRegistorIstioRouteDTO);
 
     @Operation(summary = "serviceEntity 생성 API", description = "UUID를 이용해 serviceEntity를 생성합니다.")
     @PostMapping("/{uuid}/serviceEntity")
     ResForm<crdResponseDTO.toResponseID> createServiceEntity(
+            @PathVariable("uuid") UUID uuid,
             @Valid @RequestBody crdRequestDTO.toCreateServiceEntityDTO createServiceEntityDTO);
 
     @Operation(summary = "dependency 생성 API", description = "UUID를 이용해 dependency를 생성합니다.")
     @PostMapping("/{uuid}/dependency")
     ResForm<crdResponseDTO.toResponseID> createDependency(
+            @PathVariable("uuid") UUID uuid,
             @Valid @RequestBody crdRequestDTO.toCreateDependencyDTO createDependencyDTO);
 
     @Operation(summary = "darknessRelease 생성 API", description = "UUID를 이용해 darknessRelease를 생성합니다.")
     @PostMapping("/{uuid}/darknessRelease")
     ResForm<crdResponseDTO.toResponseID> createDarknessRelease(
+            @PathVariable("uuid") UUID uuid,
             @Valid @RequestBody crdRequestDTO.toCreatedarknessReleaseDTO createDarknessReleaseDTO);
-    
+
     @Operation(summary = "현재 배포되고 있는 Service Entity 삭제 API", description = "serviceEntityID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{serviceEntityID}")
-    ResForm<crdResponseDTO.toGetServiceEntityDTO> deleteServiceEntity(@PathVariable("serviceEntityID") Long serviceEntityID);
+    ResForm<crdResponseDTO.toGetServiceEntityDTO> deleteServiceEntity(
+            @PathVariable("serviceEntityID") Long serviceEntityID);
 
     @Operation(summary = "현재 배포되고 있는 dependency 삭제 API", description = "dependency ID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{dependencyID}")
-    ResForm<crdResponseDTO.toGetServiceEntityDTO> deleteDependency(@PathVariable("dependencyID") Long dependencyID);
+    ResForm<crdResponseDTO.toGetServiceEntityDTO> deleteDependency(
+            @PathVariable("dependencyID") Long dependencyID);
 
     @Operation(summary = "현재 배포되고 있는 darknessRelease 삭제 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{darknessReleaseID}")
-    ResForm<crdResponseDTO.toGetServiceEntityDTO> deleteDarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
+    ResForm<crdResponseDTO.toGetServiceEntityDTO> deleteDarknessRelease(
+            @PathVariable("darknessReleaseID") Long darknessReleaseID);
 
 }

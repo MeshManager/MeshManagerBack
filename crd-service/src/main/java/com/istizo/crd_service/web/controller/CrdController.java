@@ -8,6 +8,8 @@ import com.istizo.crd_service.web.dto.crdResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 public class CrdController implements CrdApiSpecification {
@@ -23,32 +25,36 @@ public class CrdController implements CrdApiSpecification {
     }
 
     @Override
-    public ResForm<crdResponseDTO.toGetServiceEntityDTO> getDependency(Long dependencyID) {
+    public ResForm<crdResponseDTO.toGetDependencyDTO> getDependency(Long dependencyID) {
         return null;
     }
 
     @Override
-    public ResForm<crdResponseDTO.toGetServiceEntityDTO> getdarknessRelease(Long darknessReleaseID) {
+    public ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getdarknessRelease(Long darknessReleaseID) {
         return null;
     }
 
     @Override
-    public ResForm<crdResponseDTO.toResponseID> createIstioRoute(crdRequestDTO.toRegistorIstioRouteDTO toRegistorIstioRouteDTO) {
         return null;
     }
 
     @Override
-    public ResForm<crdResponseDTO.toResponseID> createServiceEntity(crdRequestDTO.toCreateServiceEntityDTO createServiceEntityDTO) {
+    public ResForm<crdResponseDTO.toResponseID> createIstioRoute(UUID uuid, crdRequestDTO.toRegistorIstioRouteDTO toRegistorIstioRouteDTO) {
         return null;
     }
 
     @Override
-    public ResForm<crdResponseDTO.toResponseID> createDependency(crdRequestDTO.toCreateDependencyDTO createDependencyDTO) {
+    public ResForm<crdResponseDTO.toResponseID> createServiceEntity(UUID uuid, crdRequestDTO.toCreateServiceEntityDTO createServiceEntityDTO) {
         return null;
     }
 
     @Override
-    public ResForm<crdResponseDTO.toResponseID> createDarknessRelease(crdRequestDTO.toCreatedarknessReleaseDTO createDarknessReleaseDTO) {
+    public ResForm<crdResponseDTO.toResponseID> createDependency(UUID uuid, crdRequestDTO.toCreateDependencyDTO createDependencyDTO) {
+        return null;
+    }
+
+    @Override
+    public ResForm<crdResponseDTO.toResponseID> createDarknessRelease(UUID uuid, crdRequestDTO.toCreatedarknessReleaseDTO createDarknessReleaseDTO) {
         return null;
     }
 
