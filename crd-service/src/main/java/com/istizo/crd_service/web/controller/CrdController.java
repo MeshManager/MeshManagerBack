@@ -55,7 +55,7 @@ public class CrdController implements CrdApiSpecification {
     }
 
     @Override
-    public ResForm<CrdResponseDTO.toResponseID> createDarknessRelease(UUID uuid, CrdRequestDTO.toCreatedarknessReleaseDTO createDarknessReleaseDTO) {
+    public ResForm<CrdResponseDTO.toResponseID> createDarknessRelease(UUID uuid, CrdRequestDTO.toCreateDarknessReleaseDTO createDarknessReleaseDTO) {
         return null;
     }
 

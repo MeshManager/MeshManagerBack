@@ -53,7 +53,7 @@ public class CrdRequestDTO {
 
     @Getter
     @Schema(description = "darknessRelease 추가 DTO")
-    public static class toCreatedarknessReleaseDTO {
+    public static class toCreateDarknessReleaseDTO {
         @Schema(description = "darknessRelease가 종속된 서비스의 ID", requiredMode = Schema.RequiredMode.REQUIRED, nullable = false)
         private Long serviceEntityId;
 

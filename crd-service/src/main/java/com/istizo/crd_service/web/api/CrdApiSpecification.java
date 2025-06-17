@@ -59,7 +59,7 @@ public interface CrdApiSpecification {
     @PostMapping("/{uuid}/darknessRelease")
     ResForm<CrdResponseDTO.toResponseID> createDarknessRelease(
             @PathVariable("uuid") UUID uuid,
-            @Valid @RequestBody CrdRequestDTO.toCreatedarknessReleaseDTO createDarknessReleaseDTO);
+            @Valid @RequestBody CrdRequestDTO.toCreateDarknessReleaseDTO createDarknessReleaseDTO);
 
     @Operation(summary = "현재 배포되고 있는 Service Entity 삭제 API", description = "serviceEntityID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{serviceEntityID}")
