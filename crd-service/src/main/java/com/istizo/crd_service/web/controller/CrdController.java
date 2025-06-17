@@ -35,7 +35,7 @@ public class CrdController implements CrdApiSpecification {
     }
 
     @Override
-    public ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getDependantID(Long serviceEntityID) {
+    public ResForm<crdResponseDTO.toResponseDependantID> getDependantID(Long serviceEntityID) {
         return null;
     }
 
