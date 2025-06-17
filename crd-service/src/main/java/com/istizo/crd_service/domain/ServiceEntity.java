@@ -26,7 +26,7 @@ public class ServiceEntity {
     @Enumerated(value = EnumType.STRING)
     private ServiceType serviceType;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer ratio;
 
     @ElementCollection(fetch = FetchType.LAZY)
