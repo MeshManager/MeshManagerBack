@@ -4,6 +4,8 @@ import com.istizo.crd_service.domain.enums.ServiceType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "tb_service_entity")
 public class ServiceEntity {
@@ -26,4 +28,7 @@ public class ServiceEntity {
 
     @Column(nullable = false)
     private Integer ratio;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> commitHashes;
 }

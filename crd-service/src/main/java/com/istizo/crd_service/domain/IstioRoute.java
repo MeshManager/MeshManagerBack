@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "tb_istio_route")
 public class IstioRoute {
@@ -13,5 +15,5 @@ public class IstioRoute {
     private Long id;
 
     @Column(nullable = false)
-    private String clusterName;
+    private UUID clusterUUID;
 }
