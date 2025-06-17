@@ -1,20 +1,29 @@
 package com.istizo.crd_service.domain;
 
+import com.istizo.crd_service.domain.enums.ServiceType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "service")
+@Table(name = "tb_service_entity")
 public class ServiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "istio_route_id", nullable = false)
-    private IstioRoute istioRoute;
+    @Column(nullable = false)
+    private Long istioRouteId;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String namespace;
-    private String type;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private ServiceType serviceType;
+
+    @Column(nullable = false)
     private Integer ratio;
 }
