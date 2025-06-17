@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
@@ -28,8 +29,6 @@ public class RedisConfig {
     config.setHostName(redisHost);
     config.setPort(redisPort);
     
-    LettuceConnectionFactory factory = new LettuceConnectionFactory(config);
-    
     // 연결 옵션 설정
     ClientOptions clientOptions = ClientOptions.builder()
         .socketOptions(SocketOptions.builder()
@@ -37,7 +36,11 @@ public class RedisConfig {
             .build())
         .build();
     
-    factory.setClientOptions(clientOptions);
+    LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+        .clientOptions(clientOptions)
+        .build();
+    
+    LettuceConnectionFactory factory = new LettuceConnectionFactory(config, clientConfig);
     factory.setValidateConnection(true);
     
     return factory;
