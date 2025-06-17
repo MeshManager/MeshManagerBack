@@ -81,4 +81,16 @@ public class crdResponseDTO {
         @Schema(description = "생성된 리소스의 ID", requiredMode = Schema.RequiredMode.REQUIRED, nullable = false)
         private Long ID;
     }
+
+    @Getter
+    @Builder
+    @Schema(description = "생성된 ServiceEntity가 가지고 있는 dependency 및 darknessRelease ID 반환")
+    public static class toResponseDependantID {
+        @Schema(description = "생성된 리소스의 dependency ID", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
+        private List<Long> dependencyID;
+
+        @Schema(description = "생성된 리소스의 darknessRelease ID", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
+        private List<Long> darknessReleaseID;
+    }
+
 }

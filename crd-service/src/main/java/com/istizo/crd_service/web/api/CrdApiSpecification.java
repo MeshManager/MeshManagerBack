@@ -32,6 +32,10 @@ public interface CrdApiSpecification {
     @GetMapping("/{darknessReleaseID}")
     ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getdarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
 
+    @Operation(summary = "현재 배포되고 있는 Service Entity가 가지고 있는 dependency, darknessRelease ID 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
+    @GetMapping("/{serviceEntityID}/dependant")
+    ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getDependantID(@PathVariable("serviceEntityID") Long serviceEntityID);
+
 
     @Operation(summary = "registor Clustor API", description = "UUID를 이용해 cluster를 등록합니다.")
     @PostMapping("/{uuid}/istioRoute")
