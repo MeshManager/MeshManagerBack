@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_service_entity")
@@ -14,7 +15,7 @@ public class ServiceEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long istioRouteId;
+    private UUID istioRouteId;
 
     @Column(nullable = false)
     private String name;
