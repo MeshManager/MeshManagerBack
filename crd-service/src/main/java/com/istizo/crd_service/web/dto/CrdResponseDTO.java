@@ -7,7 +7,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class crdResponseDTO {
+public class CrdResponseDTO {
 
     @Getter
     @Builder

@@ -2,14 +2,12 @@ package com.istizo.crd_service.web.dto;
 
 import com.istizo.crd_service.domain.enums.ServiceType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
 
-public class crdRequestDTO {
+public class CrdRequestDTO {
 
     @Getter
     @Schema(description = "Cluster 등록 DTO")
