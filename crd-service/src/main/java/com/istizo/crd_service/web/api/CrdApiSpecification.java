@@ -24,17 +24,17 @@ public interface CrdApiSpecification {
     @GetMapping("/{serviceEntityID}")
     ResForm<crdResponseDTO.toGetServiceEntityDTO> getServiceEntity(@PathVariable("serviceEntityID") Long serviceEntityID);
 
-    @Operation(summary = "현재 배포되고 있는 dependency 조회 API", description = "dependency ID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
+    @Operation(summary = "현재 배포되고 있는 dependency 조회 API", description = "dependency ID를 이용해 현재 배포되고 있는 dependency 정보를 조회합니다.")
     @GetMapping("/{dependencyID}")
     ResForm<crdResponseDTO.toGetDependencyDTO> getDependency(@PathVariable("dependencyID") Long dependencyID);
 
-    @Operation(summary = "현재 배포되고 있는 darknessRelease 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
+    @Operation(summary = "현재 배포되고 있는 darknessRelease 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 darknessRelease 정보를 조회합니다.")
     @GetMapping("/{darknessReleaseID}")
     ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getdarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
 
-    @Operation(summary = "현재 배포되고 있는 Service Entity가 가지고 있는 dependency, darknessRelease ID 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
+    @Operation(summary = "현재 배포되고 있는 Service Entity가 가지고 있는 dependency, darknessRelease ID 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 dependency, darknessRelease ID를 조회합니다.")
     @GetMapping("/{serviceEntityID}/dependant")
-    ResForm<crdResponseDTO.toGetdarknessReleaseDTO> getDependantID(@PathVariable("serviceEntityID") Long serviceEntityID);
+    ResForm<crdResponseDTO.toResponseDependantID> getDependantID(@PathVariable("serviceEntityID") Long serviceEntityID);
 
 
     @Operation(summary = "registor Clustor API", description = "UUID를 이용해 cluster를 등록합니다.")
