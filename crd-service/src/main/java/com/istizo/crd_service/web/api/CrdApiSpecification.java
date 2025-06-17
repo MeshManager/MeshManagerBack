@@ -18,7 +18,7 @@ public interface CrdApiSpecification {
 
     @Operation(summary = "현재 배포되고 있는 Service Entity 목록 조회 API", description = "uuid를 이용해 현재 배포되고 있는 Service Entity ID 목록을 조회합니다.")
     @GetMapping("/{uuid}/list")
-    ResForm<CrdResponseDTO.toGetServiceEntityListDTO> getServiceEntityList(@PathVariable("uuid") Long uuid);
+    ResForm<CrdResponseDTO.toGetServiceEntityListDTO> getServiceEntityList(@PathVariable("uuid") UUID uuid);
 
     @Operation(summary = "현재 배포되고 있는 Service Entity 조회 API", description = "serviceEntityID를 이용해 현재 배포되고 있는 Service Entity 정보를 조회합니다.")
     @GetMapping("/{serviceEntityID}")
@@ -52,17 +52,17 @@ public interface CrdApiSpecification {
 
     @Operation(summary = "현재 배포되고 있는 Service Entity 삭제 API", description = "serviceEntityID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{serviceEntityID}")
-    ResForm<CrdResponseDTO.toGetServiceEntityDTO> deleteServiceEntity(
+    ResForm<CrdResponseDTO.toResponseID> deleteServiceEntity(
             @PathVariable("serviceEntityID") Long serviceEntityID);
 
     @Operation(summary = "현재 배포되고 있는 dependency 삭제 API", description = "dependency ID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{dependencyID}")
-    ResForm<CrdResponseDTO.toGetServiceEntityDTO> deleteDependency(
+    ResForm<CrdResponseDTO.toResponseID> deleteDependency(
             @PathVariable("dependencyID") Long dependencyID);
 
     @Operation(summary = "현재 배포되고 있는 darknessRelease 삭제 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 Service Entity 정보를 삭제합니다.")
     @DeleteMapping("/{darknessReleaseID}")
-    ResForm<CrdResponseDTO.toGetServiceEntityDTO> deleteDarknessRelease(
+    ResForm<CrdResponseDTO.toResponseID> deleteDarknessRelease(
             @PathVariable("darknessReleaseID") Long darknessReleaseID);
 
 }
