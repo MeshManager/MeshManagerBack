@@ -7,6 +7,7 @@ import org.agent.service.dto.AgentStatusResponse;
 import org.agent.service.dto.RegisterAgentRequest;
 import org.agent.service.dto.SaveClusterStateRequest;
 import org.agent.service.service.AgentService;
+import org.agent.service.service.RedisService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class AgentController {
 
   private final AgentService agentService;
+  private final RedisService redisService;
 
   @Operation(
       summary = "고객 k8s에 설치된 agent 정보 등록 API"
@@ -60,16 +62,5 @@ public class AgentController {
     return agentService.getConnectedAgentNames();
   }
 
-  @Operation(
-      summary = "Redis 연결 테스트 API"
-  )
-  @GetMapping("/redis-test")
-  public String testRedis() {
-    try {
-      agentService.saveClusterState("test-key");
-      return "Redis connection test successful";
-    } catch (Exception e) {
-      return "Redis connection test failed: " + e.getMessage();
-    }
-  }
+
 }
