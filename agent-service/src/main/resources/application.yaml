@@ -11,7 +11,7 @@ spring:
   data:
     redis:
       host: 211.183.3.100
-      port: 6379
+      port: 6380
 
 server:
   port: 8081

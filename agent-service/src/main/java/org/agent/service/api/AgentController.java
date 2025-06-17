@@ -23,7 +23,7 @@ public class AgentController {
   @Operation(
       summary = "고객 k8s에 설치된 agent 정보 등록 API"
   )
-  @PostMapping("/")
+  @PostMapping("/register")
   public StatusResponse registerAgent(@RequestBody RegisterAgentRequest request) {
     return agentService.register(request);
   }
