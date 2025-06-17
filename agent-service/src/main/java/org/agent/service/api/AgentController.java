@@ -59,4 +59,17 @@ public class AgentController {
   public Set<String> getConnectedAgentNames() {
     return agentService.getConnectedAgentNames();
   }
+
+  @Operation(
+      summary = "Redis 연결 테스트 API"
+  )
+  @GetMapping("/redis-test")
+  public String testRedis() {
+    try {
+      agentService.saveClusterState("test-key");
+      return "Redis connection test successful";
+    } catch (Exception e) {
+      return "Redis connection test failed: " + e.getMessage();
+    }
+  }
 }

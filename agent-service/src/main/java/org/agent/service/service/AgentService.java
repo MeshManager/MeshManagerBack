@@ -36,7 +36,9 @@ public class AgentService {
   }
 
   public StatusResponse saveClusterState(String agentName) {
+    logger.info("saveClusterState called for agent: {}", agentName);
     redisService.saveWithTTL(agentName);
+    logger.info("saveClusterState completed for agent: {}", agentName);
     return StatusResponse.of(true);
   }
 
