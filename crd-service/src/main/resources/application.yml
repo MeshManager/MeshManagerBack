@@ -1,9 +1,12 @@
+server:
+  port: 8084
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_HOST}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/crddb
+    username: root
+    password: test1234
 
   jpa:
     hibernate:
