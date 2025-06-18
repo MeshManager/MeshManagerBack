@@ -94,7 +94,7 @@ public class ClusterController {
   }
 
   @Operation(
-      summary = "고객 k8s 클러스터의 deployment 데이터 조회 API"
+      summary = "고객 k8s 클러스터의 deployment의 버전 조회 API"
   )
   @GetMapping("/deployments/versions")
   public DeploymentVersionListResponse getDeploymentVersions(
