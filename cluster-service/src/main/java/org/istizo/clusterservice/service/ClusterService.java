@@ -91,16 +91,10 @@ public class ClusterService {
   }
 
   public DeploymentVersionListResponse getDeploymentVersions(UUID clusterId, String namespace, String serviceName) {
-    String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
-        clusterId, namespace, serviceName
-    );
-
-    DeploymentListResponse deployments = restTemplate.getForObject(url, DeploymentListResponse.class);
-    System.out.printf("" + deployments.data());
+    DeploymentListResponse deploymentList = getDeployments(clusterId, namespace, serviceName);
 
     return DeploymentVersionListResponse.of(
-        deployments.data().stream()
+        deploymentList.data().stream()
         .map(DeploymentInfo::podLabels)
         .map(labels -> labels.get("version"))
         .filter(Objects::nonNull)
