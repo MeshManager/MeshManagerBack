@@ -2,6 +2,7 @@ package org.istizo.clusterservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.istizo.clusterservice.common.DataResponse;
+import org.istizo.clusterservice.dto.DeploymentInfo;
 import org.istizo.clusterservice.dto.response.*;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
 import org.istizo.clusterservice.entity.Cluster;
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -85,5 +88,24 @@ public class ClusterService {
     );
 
     return restTemplate.getForObject(url, DeploymentListResponse.class);
+  }
+
+  public DeploymentVersionListResponse getDeploymentVersions(UUID clusterId, String namespace, String serviceName) {
+    String url = String.format(
+        "http://localhost:8083/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
+        clusterId, namespace, serviceName
+    );
+
+    DeploymentListResponse deployments = restTemplate.getForObject(url, DeploymentListResponse.class);
+    System.out.printf("" + deployments.data());
+
+    return DeploymentVersionListResponse.of(
+        deployments.data().stream()
+        .map(DeploymentInfo::podLabels)
+        .map(labels -> labels.get("version"))
+        .filter(Objects::nonNull)
+        .distinct()
+        .collect(Collectors.toList())
+    );
   }
 }
