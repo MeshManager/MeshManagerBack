@@ -15,6 +15,10 @@ public enum ErrorStatus {
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
     _EMPTY_FIELD(HttpStatus.NO_CONTENT, "COMMON404", "입력 값이 누락되었습니다."),
 
+    SERVICE_ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "CRD4001", "ServiceEntity를 찾을 수 없습니다."),
+    DEPENDENCY_NOT_FOUND(HttpStatus.NOT_FOUND, "CRD4002", "Dependency를 찾을 수 없습니다."),
+    DARKNESS_RELEASE_NOT_FOUND(HttpStatus.NOT_FOUND, "CRD4003", "DarknessRelease를 찾을 수 없습니다.");
+
 
     ;
     //

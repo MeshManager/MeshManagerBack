@@ -3,6 +3,8 @@ package com.istizo.crd_service.service.CrdService;
 import com.istizo.crd_service.domain.DarknessRelease;
 import com.istizo.crd_service.domain.Dependency;
 import com.istizo.crd_service.domain.ServiceEntity;
+import com.istizo.crd_service.global.exception.CustomException;
+import com.istizo.crd_service.global.response.status.ErrorStatus;
 import com.istizo.crd_service.repository.DarknessReleaseRepository;
 import com.istizo.crd_service.repository.DependencyRepository;
 import com.istizo.crd_service.repository.ServiceEntityRepository;
@@ -28,15 +30,19 @@ public class CrdServiceImpl implements CrdService {
 
     @Override
     public CrdResponseDTO.toGetServiceEntityListDTO GetServiceEntityList(UUID uuid) {
+        List<Long> ids = serviceEntityRepository.findIdByUuid(uuid);
+        if (ids == null || ids.isEmpty()) {
+            throw new CustomException(ErrorStatus.SERVICE_ENTITY_NOT_FOUND);
+        }
         return CrdResponseDTO.toGetServiceEntityListDTO.builder()
-                .serviceEntityID(serviceEntityRepository.findIdByUuid(uuid))
+                .serviceEntityID(ids)
                 .build();
     }
 
     @Override
     public CrdResponseDTO.toGetServiceEntityDTO GetServiceEntityDTO(Long serviceEntityID) {
         ServiceEntity entity = serviceEntityRepository.findById(serviceEntityID)
-                .orElseThrow(() -> new RuntimeException("ServiceEntity not found"));
+                .orElseThrow(() -> new CustomException(ErrorStatus.SERVICE_ENTITY_NOT_FOUND));
 
         Long darknessReleaseId = darknessReleaseRepository.findDarknessReleaseIdByServiceEntityId(entity.getId());
 
@@ -56,7 +62,7 @@ public class CrdServiceImpl implements CrdService {
     @Override
     public CrdResponseDTO.toGetDependencyDTO GetDependencyDTO(Long dependencyID) {
         Dependency dependency = dependencyRepository.findById(dependencyID)
-                .orElseThrow(() -> new RuntimeException("Dependency not found"));
+                .orElseThrow(() -> new CustomException(ErrorStatus.DEPENDENCY_NOT_FOUND));
         return CrdResponseDTO.toGetDependencyDTO.builder()
                 .serviceEntityId(dependency.getServiceEntityId())
                 .name(dependency.getName())
@@ -68,7 +74,7 @@ public class CrdServiceImpl implements CrdService {
     @Override
     public CrdResponseDTO.toGetdarknessReleaseDTO GetDarknessReleaseDTO(Long darknessReleaseID) {
         DarknessRelease dr = darknessReleaseRepository.findById(darknessReleaseID)
-                .orElseThrow(() -> new RuntimeException("DarknessRelease not found"));
+                .orElseThrow(() -> new CustomException(ErrorStatus.DARKNESS_RELEASE_NOT_FOUND));
         return CrdResponseDTO.toGetdarknessReleaseDTO.builder()
                 .serviceEntityId(dr.getServiceEntityId())
                 .commitHash(dr.getCommitHash())
