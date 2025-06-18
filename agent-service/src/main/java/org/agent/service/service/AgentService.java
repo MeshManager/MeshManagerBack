@@ -27,8 +27,6 @@ public class AgentService {
 
   @Transactional
   public StatusResponse register(RegisterAgentRequest request) {
-    logger.info("register agent request: {}", request);
-
     agentRepository.save(
         Agent.create(request.name(), request.clusterId())
     );

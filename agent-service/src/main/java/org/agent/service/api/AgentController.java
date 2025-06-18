@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.agent.service.common.StatusResponse;
 import org.agent.service.dto.AgentStatusResponse;
 import org.agent.service.dto.RegisterAgentRequest;
-import org.agent.service.dto.SaveClusterStateRequest;
 import org.agent.service.service.AgentService;
 import org.agent.service.service.RedisService;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/agent")
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class AgentController {
 
   private final AgentService agentService;

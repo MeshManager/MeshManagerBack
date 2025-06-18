@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cluster")
 @RestController
-
 public class ClusterController {
 
   private final ClusterService clusterService;
@@ -32,9 +31,8 @@ public class ClusterController {
       description = "지정된 클러스터 이름이 이미 존재하는지 확인합니다."
   )
   @GetMapping("/check-duplicate/{clusterName}")
-  public ResponseEntity<Boolean> checkDuplicate(@PathVariable String clusterName) {
-    boolean isDuplicate = clusterService.checkDuplicateClusterName(clusterName);
-    return ResponseEntity.ok(isDuplicate);
+  public Boolean checkDuplicate(@PathVariable String clusterName) {
+    return clusterService.checkDuplicateClusterName(clusterName);
   }
 
   @Operation(
@@ -49,9 +47,9 @@ public class ClusterController {
       summary = "고객 k8s 클러스터 삭제 API",
       description = "지정된 UUID를 가진 클러스터를 삭제합니다."
   )
-  @DeleteMapping("/{uuid}")
-  public ResponseEntity<Void> deleteCluster(@PathVariable UUID uuid) {
-    clusterService.deleteCluster(uuid);
+  @DeleteMapping("/{clusterId}")
+  public ResponseEntity<Void> deleteCluster(@PathVariable UUID clusterId) {
+    clusterService.deleteCluster(clusterId);
     return ResponseEntity.noContent().build();
   }
 
@@ -59,10 +57,9 @@ public class ClusterController {
       summary = "고객 k8s 클러스터 상세 정보 조회 API",
       description = "지정된 UUID를 가진 클러스터의 상세 정보를 조회합니다."
   )
-  @GetMapping("/{uuid}/details")
-  public ResponseEntity<ClusterDetailResponse> getClusterDetails(@PathVariable UUID uuid) {
-    ClusterDetailResponse details = clusterService.getClusterDetails(uuid);
-    return ResponseEntity.ok(details);
+  @GetMapping("/{clusterId}/details")
+  public ClusterDetailResponse getClusterDetails(@PathVariable UUID clusterId) {
+    return clusterService.getClusterDetails(clusterId);
   }
 
   @Operation(
