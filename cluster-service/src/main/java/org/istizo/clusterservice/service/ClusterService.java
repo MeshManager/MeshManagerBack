@@ -2,6 +2,7 @@ package org.istizo.clusterservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.istizo.clusterservice.common.DataResponse;
+import org.istizo.clusterservice.dto.DeploymentInfo;
 import org.istizo.clusterservice.dto.response.*;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
 import org.istizo.clusterservice.entity.Cluster;
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -85,5 +88,18 @@ public class ClusterService {
     );
 
     return restTemplate.getForObject(url, DeploymentListResponse.class);
+  }
+
+  public DeploymentVersionListResponse getDeploymentVersions(UUID clusterId, String namespace, String serviceName) {
+    DeploymentListResponse deploymentList = getDeployments(clusterId, namespace, serviceName);
+
+    return DeploymentVersionListResponse.of(
+        deploymentList.data().stream()
+        .map(DeploymentInfo::podLabels)
+        .map(labels -> labels.get("version"))
+        .filter(Objects::nonNull)
+        .distinct()
+        .collect(Collectors.toList())
+    );
   }
 }

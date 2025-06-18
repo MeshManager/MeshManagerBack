@@ -92,6 +92,18 @@ public class ClusterController {
   ) {
     return clusterService.getDeployments(clusterId, namespace, serviceName);
   }
+
+  @Operation(
+      summary = "고객 k8s 클러스터의 deployment의 버전 조회 API"
+  )
+  @GetMapping("/deployments/versions")
+  public DeploymentVersionListResponse getDeploymentVersions(
+      @RequestParam(name = "namespace") String namespace,
+      @RequestParam(name = "serviceName") String serviceName,
+      @RequestParam(name = "clusterId") UUID clusterId
+  ) {
+    return clusterService.getDeploymentVersions(clusterId, namespace, serviceName);
+  }
 }
 
 
