@@ -22,7 +22,7 @@ public class ManagementController {
       summary = "고객 k8s 클러스터의 리소스 저장 API",
       description = "해시 값이 변경될 때만 기존 리소스 (service, deployment)를 삭제하고 다시 저장함"
   )
-  @PostMapping
+  @PostMapping("/state")
   public StatusResponse saveClusterResource(@RequestBody ClusterResourceRequest request) {
     return managementService.saveClusterResource(request);
   }
