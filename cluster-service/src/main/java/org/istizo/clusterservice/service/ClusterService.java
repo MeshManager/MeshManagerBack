@@ -38,31 +38,21 @@ public class ClusterService {
   }
 
   @Transactional
-  public void deleteCluster(UUID uuid) {
-    logger.info("Attempting to delete cluster with UUID: {}", uuid);
-    try {
-      clusterRepository.deleteById(uuid);
-      logger.info("Successfully deleted cluster with UUID: {}", uuid);
-    } catch (Exception e) {
-      logger.error("Failed to delete cluster with UUID: {}", uuid, e);
-      throw new RuntimeException("Failed to delete cluster", e);
-    }
+  public void deleteCluster(UUID clusterId) {
+    clusterRepository.deleteById(clusterId);
   }
 
   @Transactional(readOnly = true)
-  public ClusterDetailResponse getClusterDetails(UUID uuid) {
-    logger.info("Attempting to retrieve cluster details for UUID: {}", uuid);
-    return clusterRepository.findById(uuid)
+  public ClusterDetailResponse getClusterDetails(UUID clusterId) {
+    return clusterRepository.findById(clusterId)
         .map(cluster -> ClusterDetailResponse.builder()
             .uuid(cluster.getUuid())
             .name(cluster.getName())
             .prometheusUrl(cluster.getPrometheusUrl())
             .token(cluster.getToken())
-            // 추가적인 필드는 필요에 따라 다른 서비스에서 가져오거나 기본값 설정
             .build())
         .orElseThrow(() -> {
-          logger.warn("Cluster with UUID {} not found.", uuid);
-          return new RuntimeException("Cluster not found with UUID: " + uuid);
+          return new RuntimeException("Cluster not found with UUID: " + clusterId);
         });
   }
 
