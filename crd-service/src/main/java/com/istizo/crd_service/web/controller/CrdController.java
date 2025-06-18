@@ -37,7 +37,7 @@ public class CrdController implements CrdApiSpecification {
     }
 
     @Override
-    public ResForm<CrdResponseDTO.toGetdarknessReleaseDTO> getdarknessRelease(Long darknessReleaseID) {
+    public ResForm<CrdResponseDTO.toGetdarknessReleaseDTO> getDarknessRelease(Long darknessReleaseID) {
         CrdResponseDTO.toGetdarknessReleaseDTO darknessReleaseDTO = crdService.GetDarknessReleaseDTO(darknessReleaseID);
         return ResForm.onSuccess(InSuccess.GET_DARKNESSRELEASE_SUCCESS, darknessReleaseDTO);
     }
@@ -74,7 +74,7 @@ public class CrdController implements CrdApiSpecification {
 
     @Override
     public ResForm<CrdResponseDTO.toResponseID> deleteDarknessRelease(Long darknessReleaseID) {
-        CrdResponseDTO.toResponseID responseID = crdService.DeleteDependency(darknessReleaseID);
+        CrdResponseDTO.toResponseID responseID = crdService.DeleteDarknessRelease(darknessReleaseID);
         return ResForm.onSuccess(InSuccess.DELETE_DARKNESSRELEASE_SUCCESS, responseID);
     }
 }
