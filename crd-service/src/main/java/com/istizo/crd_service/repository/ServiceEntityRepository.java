@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface ServiceEntityRepository extends JpaRepository<ServiceEntity, Long> {
     @Query("select s.id from ServiceEntity s where s.uuid = :uuid")
     List<Long> findIdByUuid(@Param("uuid") UUID uuid);
+
+    List<ServiceEntity> findAllByUuid(UUID uuid);
 }

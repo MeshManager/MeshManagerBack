@@ -10,4 +10,6 @@ import java.util.List;
 public interface DependencyRepository extends JpaRepository<Dependency, Long> {
     @Query("select d.id from Dependency d where d.serviceEntityId = :serviceEntityId")
     List<Long> findDependenciesIdByServiceEntityId(@Param("serviceEntityId") Long serviceEntityId);
+
+    List<Dependency> findAllByServiceEntityIdIn(List<Long> serviceEntityIds);
 }
