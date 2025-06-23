@@ -16,7 +16,7 @@ import java.util.UUID;
 public class IstioRouteController {
     private final IstioRouteService istioRouteService;
 
-    @GetMapping(value = "/{uuid}", produces = "application/x-yaml")
+    @GetMapping(value = "/{uuid}", produces = "application/json")
     public String getIstioRouteAsYaml(@PathVariable UUID uuid) {
         return istioRouteService.serveYAML(uuid);
     }
