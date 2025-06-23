@@ -1,5 +1,5 @@
 # Multi-stage build
-FROM openjdk:17-jdk-slim AS builder
+FROM openjdk:21-jdk-slim AS builder
 
 WORKDIR /app
 COPY . .
