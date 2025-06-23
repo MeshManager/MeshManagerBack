@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:3000", // React 개발 서버 주소
-                        "http://test.rapa8888.shop.s3-website.ap-northeast-2.amazonaws.com" // S3 웹사이트 도메인
+                        "*" // S3 웹사이트 도메인
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
