@@ -68,8 +68,4 @@ public interface CrdApiSpecification {
     @DeleteMapping("/darkness/{darknessReleaseID}")
     ResForm<CrdResponseDTO.toResponseID> deleteDarknessRelease(
             @PathVariable("darknessReleaseID") Long darknessReleaseID);
-
-    @Operation(summary = "ALB 헬스 체크 API")
-    @GetMapping("/health")
-    String health();
 }
