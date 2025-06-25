@@ -45,9 +45,7 @@ dependencies {
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
-<<<<<<< Updated upstream
-=======
 bootJar {
 	archiveFileName = 'application.jar'
 }
->>>>>>> Stashed changes
+
