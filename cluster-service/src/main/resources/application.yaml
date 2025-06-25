@@ -9,5 +9,18 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  application:
+    name: cluster-service
+
 server:
   port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+  metrics:
+    tags:
+      application: ${spring.application.name}

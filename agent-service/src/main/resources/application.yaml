@@ -15,5 +15,18 @@ spring:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 
+  application:
+    name: agent-service
+
 server:
   port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+  metrics:
+    tags:
+      application: ${spring.application.name}

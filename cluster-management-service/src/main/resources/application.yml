@@ -15,5 +15,18 @@ spring:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 
+  application:
+    name: cluster-management-service
+
 server:
   port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
