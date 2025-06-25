@@ -43,6 +43,11 @@ public class CrdController implements CrdApiSpecification {
     }
 
     @Override
+    public String checkHealth() {
+        return "Server Status OK";
+    }
+
+    @Override
     public ResForm<CrdResponseDTO.toResponseID> createServiceEntity(UUID uuid, CrdRequestDTO.toCreateServiceEntityDTO createServiceEntityDTO) {
         CrdResponseDTO.toResponseID createdServiceEntity = crdService.CreateServiceEntity(uuid, createServiceEntityDTO);
         return ResForm.onSuccess(InSuccess.POST_SERVICE_ENTITY_SUCCESS, createdServiceEntity);
