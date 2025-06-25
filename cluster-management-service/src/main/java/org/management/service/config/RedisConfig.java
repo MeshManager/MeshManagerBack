@@ -34,8 +34,8 @@ public class RedisConfig {
     RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
     config.setHostName(redisHost);
     config.setPort(redisPort);
-    config.setUsername(redisUsername);         // ✅ 추가
-    config.setPassword(redisPassword);         // ✅ 추가
+    config.setUsername(redisUsername);
+    config.setPassword(redisPassword);
 
     ClientOptions clientOptions = ClientOptions.builder()
         .socketOptions(SocketOptions.builder()
@@ -45,7 +45,7 @@ public class RedisConfig {
 
     LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
         .useSsl()
-        .and()// ✅ TLS 활성화
+        .and()
         .clientOptions(clientOptions)
         .build();
 
