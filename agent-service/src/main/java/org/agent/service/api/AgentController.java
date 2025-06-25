@@ -60,5 +60,9 @@ public class AgentController {
     return agentService.getConnectedAgentNames();
   }
 
-
+  @Operation(summary = "ALB 헬스 체크 API")
+  @GetMapping("/health")
+  public String health() {
+    return "200 OK";
+  }
 }

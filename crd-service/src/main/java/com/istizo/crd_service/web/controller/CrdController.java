@@ -82,4 +82,9 @@ public class CrdController implements CrdApiSpecification {
         CrdResponseDTO.toResponseID responseID = crdService.DeleteDarknessRelease(darknessReleaseID);
         return ResForm.onSuccess(InSuccess.DELETE_DARKNESSRELEASE_SUCCESS, responseID);
     }
+
+    @Override
+    public String health() {
+        return "200 OK";
+    }
 }

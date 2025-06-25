@@ -92,6 +92,12 @@ public class ClusterController {
   ) {
     return clusterService.getDeployments(clusterId, namespace, serviceName);
   }
+
+  @Operation(summary = "ALB 헬스 체크 API")
+  @GetMapping("/health")
+  public String health() {
+    return "200 OK";
+  }
 }
 
 
