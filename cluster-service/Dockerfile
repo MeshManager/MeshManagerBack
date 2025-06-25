@@ -1,5 +1,5 @@
 # Multi-stage build
-FROM openjdk:21-jdk-slim AS builder
+FROM openjdk:21-slim AS builder
 
 WORKDIR /app
 COPY . .
@@ -11,7 +11,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
 # 실행 이미지
-FROM openjdk:17-jre-slim
+FROM openjdk:21-slim
 
 WORKDIR /app
 
