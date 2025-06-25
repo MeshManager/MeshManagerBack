@@ -61,7 +61,6 @@ public class ClusterService {
     return DataResponse.of(clusters);
   }
 
-  // TODO: 서버 배포 후 엔드포인트 수정
   public NamespaceListResponse getNamespaces(UUID clusterId) {
     String url = String.format(
         "http://cluster-management-service/api/v1/management/clusters/namespaces?clusterId=%s", clusterId
