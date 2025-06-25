@@ -64,14 +64,14 @@ public class ClusterService {
   // TODO: 서버 배포 후 엔드포인트 수정
   public NamespaceListResponse getNamespaces(UUID clusterId) {
     String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/namespaces?clusterId=%s", clusterId
+        "http://cluster-management-service/api/v1/management/clusters/namespaces?clusterId=%s", clusterId
     );
     return restTemplate.getForObject(url, NamespaceListResponse.class);
   }
 
   public ServiceNameListResponse getServiceNames(UUID clusterId, String namespace) {
     String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/services?clusterId=%s&namespace=%s",
+        "http://cluster-management-service/api/v1/management/clusters/services?clusterId=%s&namespace=%s",
         clusterId, namespace
     );
 
@@ -80,7 +80,7 @@ public class ClusterService {
 
   public DeploymentListResponse getDeployments(UUID clusterId, String namespace, String serviceName) {
     String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
+        "http://cluster-management-service/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
         clusterId, namespace, serviceName
     );
 
