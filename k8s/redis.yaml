@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: mesh-manager
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        - containerPort: 6380
+        command: ["redis-server", "--appendonly", "yes", "--port", "6379"]
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      # Agent Service용 별도 Redis 인스턴스
+      - name: redis-agent
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6380
+        command: ["redis-server", "--appendonly", "yes", "--port", "6380"]
+        volumeMounts:
+        - name: redis-agent-data
+          mountPath: /data-agent
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-pvc
+      - name: redis-agent-data
+        persistentVolumeClaim:
+          claimName: redis-agent-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: mesh-manager
+  labels:
+    app: redis
+spec:
+  selector:
+    app: redis
+  ports:
+  - name: redis-main
+    port: 6379
+    targetPort: 6379
+  - name: redis-agent  
+    port: 6380
+    targetPort: 6380
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: mesh-manager
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-agent-pvc
+  namespace: mesh-manager
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi 

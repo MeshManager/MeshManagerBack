@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Tag(name = "CRD API", description = "Agent CRD 관련 API")
 @RestController
-@RequestMapping("/crd/api/v1")
+@RequestMapping("/api/v1/crd")
 @Validated
 public interface CrdApiSpecification {
 
@@ -31,6 +31,10 @@ public interface CrdApiSpecification {
     @Operation(summary = "현재 배포되고 있는 darknessRelease 조회 API", description = "darknessRelease ID를 이용해 현재 배포되고 있는 darknessRelease 정보를 조회합니다.")
     @GetMapping("/darkness/{darknessReleaseID}")
     ResForm<CrdResponseDTO.toGetdarknessReleaseDTO> getDarknessRelease(@PathVariable("darknessReleaseID") Long darknessReleaseID);
+
+    @Operation(summary = "Application Health Check", description = "본 서버의 health Check를 담당하는 부분입니다.")
+    @GetMapping("/health")
+    String checkHealth();
 
     @Operation(summary = "serviceEntity 생성 API", description = "UUID를 이용해 serviceEntity를 생성합니다.")
     @PostMapping("/{uuid}/serviceEntity")
@@ -64,5 +68,4 @@ public interface CrdApiSpecification {
     @DeleteMapping("/darkness/{darknessReleaseID}")
     ResForm<CrdResponseDTO.toResponseID> deleteDarknessRelease(
             @PathVariable("darknessReleaseID") Long darknessReleaseID);
-
 }

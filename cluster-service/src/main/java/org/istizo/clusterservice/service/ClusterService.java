@@ -2,7 +2,6 @@ package org.istizo.clusterservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.istizo.clusterservice.common.DataResponse;
-import org.istizo.clusterservice.dto.DeploymentInfo;
 import org.istizo.clusterservice.dto.response.*;
 import org.istizo.clusterservice.dto.request.RegisterClusterRequest;
 import org.istizo.clusterservice.entity.Cluster;
@@ -14,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -64,17 +61,16 @@ public class ClusterService {
     return DataResponse.of(clusters);
   }
 
-  // TODO: 서버 배포 후 엔드포인트 수정
   public NamespaceListResponse getNamespaces(UUID clusterId) {
     String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/namespaces?clusterId=%s", clusterId
+        "http://cluster-management-service/api/v1/management/clusters/namespaces?clusterId=%s", clusterId
     );
     return restTemplate.getForObject(url, NamespaceListResponse.class);
   }
 
   public ServiceNameListResponse getServiceNames(UUID clusterId, String namespace) {
     String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/services?clusterId=%s&namespace=%s",
+        "http://cluster-management-service/api/v1/management/clusters/services?clusterId=%s&namespace=%s",
         clusterId, namespace
     );
 
@@ -83,23 +79,10 @@ public class ClusterService {
 
   public DeploymentListResponse getDeployments(UUID clusterId, String namespace, String serviceName) {
     String url = String.format(
-        "http://localhost:8083/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
+        "http://cluster-management-service/api/v1/management/clusters/deployments?clusterId=%s&namespace=%s&serviceName=%s",
         clusterId, namespace, serviceName
     );
 
     return restTemplate.getForObject(url, DeploymentListResponse.class);
-  }
-
-  public DeploymentVersionListResponse getDeploymentVersions(UUID clusterId, String namespace, String serviceName) {
-    DeploymentListResponse deploymentList = getDeployments(clusterId, namespace, serviceName);
-
-    return DeploymentVersionListResponse.of(
-        deploymentList.data().stream()
-        .map(DeploymentInfo::podLabels)
-        .map(labels -> labels.get("version"))
-        .filter(Objects::nonNull)
-        .distinct()
-        .collect(Collectors.toList())
-    );
   }
 }

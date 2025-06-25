@@ -1,12 +1,26 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/clusterdb
-    username: root
-    password: test1234
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 
+  application:
+    name: cluster-service
+
 server:
   port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+  metrics:
+    tags:
+      application: ${spring.application.name}

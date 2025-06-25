@@ -19,30 +19,38 @@ public class RedisConfig {
 
   @Value("${spring.data.redis.host}")
   private String redisHost;
-  
+
   @Value("${spring.data.redis.port}")
   private int redisPort;
+
+  @Value("${spring.data.redis.username}")
+  private String redisUsername;
+
+  @Value("${spring.data.redis.password}")
+  private String redisPassword;
 
   @Bean
   public RedisConnectionFactory redisConnectionFactory() {
     RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
     config.setHostName(redisHost);
     config.setPort(redisPort);
-    
-    // 연결 옵션 설정
+    config.setUsername(redisUsername);
+    config.setPassword(redisPassword);
+
     ClientOptions clientOptions = ClientOptions.builder()
         .socketOptions(SocketOptions.builder()
             .connectTimeout(Duration.ofSeconds(10))
             .build())
         .build();
-    
+
     LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+        .useSsl()
+        .and()
         .clientOptions(clientOptions)
         .build();
-    
+
     LettuceConnectionFactory factory = new LettuceConnectionFactory(config, clientConfig);
     factory.setValidateConnection(true);
-    
     return factory;
   }
 
@@ -50,19 +58,15 @@ public class RedisConfig {
   public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
     RedisTemplate<String, Object> template = new RedisTemplate<>();
     template.setConnectionFactory(connectionFactory);
-    
-    // Key는 String으로 직렬화
     template.setKeySerializer(new StringRedisSerializer());
     template.setHashKeySerializer(new StringRedisSerializer());
-    
-    // Value는 Jackson JSON으로 직렬화 (더 안정적)
+
     Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
     template.setValueSerializer(jsonSerializer);
     template.setHashValueSerializer(jsonSerializer);
-    
     template.setDefaultSerializer(jsonSerializer);
+
     template.afterPropertiesSet();
-    
     return template;
   }
 }
