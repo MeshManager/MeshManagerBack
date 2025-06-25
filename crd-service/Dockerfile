@@ -16,7 +16,7 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21-al2023-headless
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar /app/application.jar
+COPY --from=build /app/build/libs/application.jar /app/application.jar
 
 CMD java -jar /app/application.jar
 

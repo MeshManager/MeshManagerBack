@@ -45,3 +45,6 @@ dependencies {
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
+bootJar {
+	archiveFileName = 'application.jar'
+}
