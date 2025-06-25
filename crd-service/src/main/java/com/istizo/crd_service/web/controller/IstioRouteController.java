@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/istio/route/v1")
+@RequestMapping("/api/v1/yaml")
 public class IstioRouteController {
     private final IstioRouteService istioRouteService;
 
