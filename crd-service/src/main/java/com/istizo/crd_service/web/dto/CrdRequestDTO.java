@@ -4,6 +4,7 @@ import com.istizo.crd_service.domain.enums.ServiceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +34,18 @@ public class CrdRequestDTO {
 
         @Schema(description = "관리할 버전 리스트", requiredMode = Schema.RequiredMode.REQUIRED, nullable = false)
         private List<String> commitHash;
+
+        @Schema(description = "예약된 ratio 업데이트 목록", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
+        private final List<RatioScheduleDTO> ratioSchedules = new ArrayList<>();
+
+        @Getter
+        public static class RatioScheduleDTO {
+            @Schema(description = "업데이트 지연 시간(ms)", requiredMode = Schema.RequiredMode.REQUIRED)
+            private Long delayMs;
+
+            @Schema(description = "설정할 새로운 ratio 값", requiredMode = Schema.RequiredMode.REQUIRED)
+            private Integer newRatio;
+        }
     }
 
     @Getter
