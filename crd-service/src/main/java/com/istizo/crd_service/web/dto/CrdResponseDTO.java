@@ -41,6 +41,20 @@ public class CrdResponseDTO {
 
         @Schema(description = "dependency ID 목록(없으면 null 반환)", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
         private List<Long> dependencyID;
+
+        @Schema(description = "예약된 ratio 업데이트 목록", nullable = true)
+        private List<RatioScheduleInfo> ratioSchedules;
+
+        // RatioSchedule 정보 전용 DTO
+        @Getter
+        @Builder
+        public static class RatioScheduleInfo {
+            @Schema(description = "실행 예정 시간(Unix 타임스탬프 ms)")
+            private Long triggerTime;
+
+            @Schema(description = "적용될 ratio 값")
+            private Integer newRatio;
+        }
     }
 
     @Getter
