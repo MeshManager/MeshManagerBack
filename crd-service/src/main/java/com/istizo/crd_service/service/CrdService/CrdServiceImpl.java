@@ -100,6 +100,7 @@ public class CrdServiceImpl implements CrdService {
 
 
     @Override
+    @Transactional
     public CrdResponseDTO.toResponseID CreateServiceEntity(UUID uuid, CrdRequestDTO.toCreateServiceEntityDTO serviceEntityDTO) {
         ServiceEntity entity = ServiceEntity.builder()
                 .uuid(uuid)
@@ -136,6 +137,7 @@ public class CrdServiceImpl implements CrdService {
     }
 
     @Override
+    @Transactional
     public CrdResponseDTO.toResponseID CreateDependency(UUID uuid, CrdRequestDTO.toCreateDependencyDTO dependencyDTO) {
         Dependency dependency = Dependency.builder()
                 .serviceEntityId(dependencyDTO.getServiceEntityId())
@@ -150,6 +152,7 @@ public class CrdServiceImpl implements CrdService {
     }
 
     @Override
+    @Transactional
     public CrdResponseDTO.toResponseID CreateDarknessRelease(UUID uuid, CrdRequestDTO.toCreateDarknessReleaseDTO darknessReleaseDTO) {
         DarknessRelease dr = DarknessRelease.builder()
                 .serviceEntityId(darknessReleaseDTO.getServiceEntityId())
@@ -163,6 +166,7 @@ public class CrdServiceImpl implements CrdService {
     }
 
     @Override
+    @Transactional
     public CrdResponseDTO.toResponseID DeleteServiceEntity(Long serviceEntityId) {
         ServiceEntity entity = serviceEntityRepository.findById(serviceEntityId)
                 .orElseThrow(() -> new RuntimeException("ServiceEntity not found"));
@@ -176,6 +180,7 @@ public class CrdServiceImpl implements CrdService {
     }
 
     @Override
+    @Transactional
     public CrdResponseDTO.toResponseID DeleteDependency(Long dependencyId) {
         Dependency dependency = dependencyRepository.findById(dependencyId)
                 .orElseThrow(() -> new RuntimeException("Dependency not found"));
@@ -186,6 +191,7 @@ public class CrdServiceImpl implements CrdService {
     }
 
     @Override
+    @Transactional
     public CrdResponseDTO.toResponseID DeleteDarknessRelease(Long darknessReleaseId) {
         DarknessRelease dr = darknessReleaseRepository.findById(darknessReleaseId)
                 .orElseThrow(() -> new RuntimeException("DarknessRelease not found"));
