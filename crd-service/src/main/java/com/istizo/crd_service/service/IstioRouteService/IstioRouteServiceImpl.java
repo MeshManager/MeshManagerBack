@@ -31,6 +31,9 @@ public class IstioRouteServiceImpl implements IstioRouteService {
     @Override
     public String serveYAML(UUID uuid) {
         List<ServiceEntity> serviceEntityList = serviceEntityRepository.findAllByUuid(uuid);
+        if (serviceEntityList.isEmpty()) {
+            return "---";
+        }
         List<Long> ids = serviceEntityList.stream().map(ServiceEntity::getId).collect(Collectors.toList());
         List<Dependency> dependencies = dependencyRepository.findAllByServiceEntityIdIn(ids);
         List<DarknessRelease> darknessReleases = darknessReleaseRepository.findAllByServiceEntityIdIn(ids);
