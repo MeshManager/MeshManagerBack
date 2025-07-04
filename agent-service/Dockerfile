@@ -15,6 +15,8 @@ FROM openjdk:21-slim
 
 WORKDIR /app
 
+ADD https://dtdg.co/latest-java-tracer /app/dd-java-agent.jar
+
 # 빌드된 JAR 파일 복사
 COPY --from=builder /app/build/libs/*.jar app.jar
 
@@ -22,4 +24,4 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8081
 
 # 애플리케이션 실행
-ENTRYPOINT ["java", "-jar", "app.jar"] 
+ENTRYPOINT ["java", "-javaagent:/app/dd-java-agent.jar", "-jar", "app.jar"]
